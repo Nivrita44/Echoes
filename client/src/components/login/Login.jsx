@@ -1,8 +1,26 @@
-import React from "react";
+import Axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const loginUser = (e) => {
+    e.preventDefault();
+    Axios.post("http://localhost:3002/login", {
+      LoginEmail: loginEmail,
+      LoginPassword: loginPassword,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error during login:", error);
+      });
+  };
+
   return (
     <div className="loginPage flex">
       <div className="container flex">
@@ -24,12 +42,18 @@ const Login = () => {
             <h3>Welcome Back!</h3>
           </div>
 
-          <form action="" className="form grid">
-            <span className="showMessage">Login Status will go here</span>
+          <form className="form grid" onSubmit={loginUser}>
             <div className="inputDiv">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="email">Email</label>
               <div className="input flex">
-                <input type="text" id="username" placeholder="Enter Username" />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Enter Email address"
+                  onChange={(event) => {
+                    setLoginEmail(event.target.value);
+                  }}
+                />
               </div>
             </div>
 
@@ -40,6 +64,9 @@ const Login = () => {
                   type="password"
                   id="password"
                   placeholder="Enter Password"
+                  onChange={(event) => {
+                    setLoginPassword(event.target.value);
+                  }}
                 />
               </div>
             </div>

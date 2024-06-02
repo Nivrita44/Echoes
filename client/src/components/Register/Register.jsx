@@ -1,8 +1,25 @@
-import React from "react";
+import Axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [password, setPassword] = useState("");
+
+  const createUser = () => {
+    Axios.post("http://localhost:3002/register", {
+      Email: email,
+      RegNo: regNo,
+      UserName: username,
+      Password: password,
+    }).then(() => {
+      console.log("User has been registered");
+    });
+  };
+
   return (
     <div className="registerPage flex">
       <div className="container flex">
@@ -20,17 +37,11 @@ const Register = () => {
         </div>
 
         <div className="formDiv flex">
-          <div className="headerDiv">
+          {/* <div className="headerDiv">
             <h3>Let Us Know You!</h3>
-          </div>
+          </div> */}
 
           <form action="" className="form grid">
-            <div className="inputDiv">
-              <label htmlFor="username">Username</label>
-              <div className="input flex">
-                <input type="text" id="username" placeholder="Enter Username" />
-              </div>
-            </div>
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
               <div className="input flex">
@@ -38,6 +49,36 @@ const Register = () => {
                   type="email"
                   id="email"
                   placeholder="Enter Email address"
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="inputDiv">
+              <label htmlFor="regNo">Registration No</label>
+              <div className="input flex">
+                <input
+                  type="regNo"
+                  id="regNo"
+                  placeholder="Enter Registration No"
+                  onChange={(event) => {
+                    setRegNo(event.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="inputDiv">
+              <label htmlFor="username">Username</label>
+              <div className="input flex">
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Enter Username"
+                  onChange={(event) => {
+                    setUserName(event.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -49,10 +90,13 @@ const Register = () => {
                   type="password"
                   id="password"
                   placeholder="Enter Password"
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
                 />
               </div>
             </div>
-            <button type="submit" className="btn flex">
+            <button type="submit" className="btn flex" onClick={createUser}>
               <span>Register</span>
             </button>
             <span className="forgotPassword">
