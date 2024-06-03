@@ -30,17 +30,13 @@ const Register = () => {
 
           <div className="footerDiv flex">
             <span className="text">Have an account?</span>
-            <Link to={"/register"}>
+            <Link to={"/login"}>
               <button className="btn">Login</button>
             </Link>
           </div>
         </div>
 
         <div className="formDiv flex">
-          {/* <div className="headerDiv">
-            <h3>Let Us Know You!</h3>
-          </div> */}
-
           <form action="" className="form grid">
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
