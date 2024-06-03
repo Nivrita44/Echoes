@@ -181,6 +181,23 @@ app.delete("/delete-book/:id", (req, res) => {
   });
 });
 
+// get single book
+app.get("/book/:id", (req, res) => {
+  const { id } = req.params;
+  const selectQuery = "SELECT * FROM books_inventory WHERE id = ?";
+
+  db.query(selectQuery, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching book:", err);
+      res.status(500).send(err);
+    } else if (result.length === 0) {
+      res.status(404).send({ message: "Book not found" });
+    } else {
+      res.send(result[0]);
+    }
+  });
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

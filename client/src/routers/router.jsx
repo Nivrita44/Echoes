@@ -6,6 +6,7 @@ import Register from "../components/Register/Register";
 import Login from "../components/login/Login";
 import Home from "../home/Home";
 import Shop from "../shop/Shop";
+import SingleBook from "../shop/SingleBook";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/book/:id",
+        element: <SingleBook />,
       },
     ],
   },
