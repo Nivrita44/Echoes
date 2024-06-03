@@ -1,0 +1,99 @@
+@import "./variables.scss";
+@import "./breakpoints.scss";
+
+.categories {
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: $lightgrey;
+
+  @include sm {
+    padding: 50px 20px;
+  }
+
+  h1 {
+    color: $blue;
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 15px;
+  }
+
+  p {
+    max-width: 700px;
+    font-size: 20px;
+  }
+
+  .categories_list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 50px 0;
+    justify-content: center;
+    gap: 20px;
+
+    a {
+      text-decoration: none;
+    }
+
+    .category {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 250px;
+      height: 200px;
+      cursor: pointer;
+      overflow: hidden; /* Ensure the content does not overflow */
+
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensure the image covers the whole area */
+      }
+
+      .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.55);
+        transition: 0.3s ease-in-out;
+      }
+
+      &_text {
+        position: relative;
+        color: white;
+        text-align: center;
+
+        &_icon {
+          width: 50px; // Fixed width
+          height: 50px; // Fixed height
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden; /* Ensure the icon does not overflow */
+
+          img {
+            filter: invert(1); // Make icon white
+            width: 100%; // Ensure the icon fits within the container
+            height: 100%; // Ensure the icon fits within the container
+            object-fit: contain; // Ensure the icon retains its aspect ratio
+          }
+        }
+
+        p {
+          font-weight: 600;
+          margin-top: 20px; // Add some space between icon and text
+        }
+      }
+
+      &:hover {
+        .overlay {
+          width: 80%;
+          height: 80%;
+        }
+      }
+    }
+  }
+}
