@@ -54,13 +54,12 @@ db.connect((err) => {
 });
 
 app.post("/register", async(req, res) => {
-    const { Email, RegNo, UserName, Password } = req.body;
+    const { Email, RegNo, UserName, Password, ProfileImage } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(Password, 10);
-        const SQL =
-            "INSERT INTO users (email, regNo, username, password) VALUES (?, ?, ?, ?)";
-        const values = [Email, RegNo, UserName, hashedPassword];
+        const SQL = 'INSERT INTO users (email, regNo, username, password,image) VALUES (?, ?, ?, ?,?)';
+        const values = [Email, RegNo, UserName, hashedPassword, ProfileImage];
 
         db.query(SQL, values, (err, results) => {
             if (err) {
@@ -92,7 +91,6 @@ app.post("/login", (req, res) => {
             const isMatch = await bcrypt.compare(LoginPassword, user.password);
             if (isMatch) {
                 res.status(200).send(user);
-                res.redirect("/");
             } else {
                 res.status(400).send({ message: "Email and password don't match!" });
             }
