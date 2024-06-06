@@ -6,7 +6,6 @@ import "./Login.css";
 const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
   const loginUser = (e) => {
     e.preventDefault();
     Axios.post("http://localhost:3002/login", {
@@ -70,6 +69,7 @@ const Login = () => {
                 />
               </div>
             </div>
+
             <button type="submit" className="btn flex">
               <span>Login</span>
             </button>

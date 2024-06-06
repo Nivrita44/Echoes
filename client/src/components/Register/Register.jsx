@@ -8,6 +8,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [regNo, setRegNo] = useState("");
   const [password, setPassword] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
 
   const createUser = () => {
     Axios.post("http://localhost:3002/register", {
@@ -15,6 +16,7 @@ const Register = () => {
       RegNo: regNo,
       UserName: username,
       Password: password,
+      ProfileImage: profileImage,
     }).then(() => {
       console.log("User has been registered");
     });
@@ -88,6 +90,20 @@ const Register = () => {
                   placeholder="Enter Password"
                   onChange={(event) => {
                     setPassword(event.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="inputDiv">
+              <label htmlFor="profileImage">Upload Your Image</label>
+              <div className="input flex">
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  placeholder="Upload Your Photo"
+                  onChange={(event) => {
+                    setProfileImage(event.target.value);
                   }}
                 />
               </div>
