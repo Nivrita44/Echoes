@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
@@ -9,6 +10,7 @@ const Register = () => {
   const [regNo, setRegNo] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState(null);
+  // const navigate = useNavigate();
 
   const createUser = () => {
     Axios.post("http://localhost:3002/register", {
@@ -19,6 +21,7 @@ const Register = () => {
       ProfileImage: profileImage,
     }).then(() => {
       console.log("User has been registered");
+      // navigate("/login");
     });
   };
 
@@ -105,6 +108,9 @@ const Register = () => {
                   onChange={(event) => {
                     setProfileImage(event.target.value);
                   }}
+                  // onChange={(event) => {
+                  //   setProfileImage(event.target.files[0]);
+                  // }}
                 />
               </div>
             </div>

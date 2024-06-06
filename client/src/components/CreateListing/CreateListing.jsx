@@ -85,9 +85,6 @@ const CreateListing = () => {
     });
   };
 
-  //   console.log(formDescription);
-
-  /* UPLOAD, DRAG & DROP, REMOVE PHOTOS */
   const [photos, setPhotos] = useState([]);
 
   const handleUploadPhotos = (e) => {
@@ -111,6 +108,47 @@ const CreateListing = () => {
     );
   };
 
+  const userId = 1; // Replace user ID
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (selectedCategories.length === 0) {
+      alert("Please select at least one category.");
+      return;
+    }
+
+    const formData = {
+      user_id: userId,
+      book_title: formDescription.BookTitle,
+      author: formDescription.AuthorName,
+      published_date: formDescription.PublishDate,
+      description: formDescription.Description,
+      image_url: photos.length > 0 ? URL.createObjectURL(photos[0]) : "",
+      category: selectedCategories.join(", "),
+      price: formDescription.price,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3002/upload-book-sell", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log("Book uploaded successfully:", result);
+      } else {
+        console.error("Error uploading book:", result);
+      }
+    } catch (error) {
+      console.error("Error uploading book:", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -118,12 +156,11 @@ const CreateListing = () => {
       </div>
       <div className="create-listing">
         <h1>Sell your book</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="create-listing_step1">
             <h2>Step 1: Tell us about your Book</h2>
             <hr />
             <h3>Which of these categories best describes your Book?</h3>
-
             <div className="category-list">
               {categories?.map((item, index) => (
                 <div
@@ -163,7 +200,7 @@ const CreateListing = () => {
                 />
                 <p>Publish Date</p>
                 <input
-                  type="text"
+                  type="date"
                   placeholder="Publish Date"
                   name="PublishDate"
                   value={formDescription.PublishDate}
@@ -273,6 +310,7 @@ const CreateListing = () => {
               </Droppable>
             </DragDropContext>
           </div>
+          <button type="submit">Submit</button>
         </form>
       </div>
     </>
