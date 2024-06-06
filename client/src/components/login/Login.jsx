@@ -1,21 +1,27 @@
 import Axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
   const loginUser = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3003/login", {
+    Axios.post("http://localhost:3002/login", {
       LoginEmail: loginEmail,
       LoginPassword: loginPassword,
     })
       .then((response) => {
         console.log(response);
+        setErrorMessage("");
+        navigate("/"); // Redirect to home page
       })
       .catch((error) => {
+        setErrorMessage("Error during login. Please try again.");
         console.error("Error during login:", error);
       });
   };
@@ -69,6 +75,9 @@ const Login = () => {
                 />
               </div>
             </div>
+
+            {/* {errorMessage && <div className="error">{errorMessage}</div>}
+            {successMessage && <div className="success">{successMessage}</div>} */}
 
             <button type="submit" className="btn flex">
               <span>Login</span>
