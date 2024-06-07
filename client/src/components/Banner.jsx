@@ -30,7 +30,7 @@ const Banner = () => {
             eaque in possimus quia, rem aliquam inventore ipsa necessitatibus
             asperiores cumque? Dolore, cumque.
           </p>
-          <div>
+          {/* <div>
             <input
               type="search"
               name="search"
@@ -41,7 +41,7 @@ const Banner = () => {
             <button className="bg-blue-700 px-6 py-2 text-white font-medium hover:bg-black transition-all ease-in duration-200">
               Search
             </button>
-          </div>
+          </div> */}
         </div>
         <div>
           <BannerCard></BannerCard>

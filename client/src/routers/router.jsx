@@ -2,12 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import About from "../components/About";
 import Blog from "../components/Blog";
+import CreateListing from "../components/CreateListing/CreateListing";
 import Register from "../components/Register/Register";
 import Login from "../components/login/Login";
 import Home from "../home/Home";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
-import CreateListing from "../components/CreateListing/CreateListing";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/book/:id",
+        path: "/book-sell/:id",
         element: <SingleBook />,
       },
       {
