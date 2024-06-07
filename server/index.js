@@ -51,6 +51,30 @@ db.connect((err) => {
       //   });
     }
   });
+
+  const createnewTableQuery = `
+        CREATE TABLE IF NOT EXISTS book_sell_inventory (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            book_title VARCHAR(255) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            published_date DATE,
+            description VARCHAR(1000),
+            image_url VARCHAR(255),
+            category VARCHAR(50),
+            price DECIMAL(10, 2) NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    `;
+
+  db.query(createnewTableQuery, function (err, result) {
+    if (err) {
+      console.error("Table creation failed:", err);
+      process.exit(1); // Exit the process with an error code
+    } else {
+      console.log("new Table created or already exists");
+    }
+  });
 });
 
 app.post("/register", async (req, res) => {
