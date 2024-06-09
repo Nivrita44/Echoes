@@ -34,13 +34,15 @@ function SingleBook() {
       {book && (
         <>
           <div className="book-details">
-            {book.image_url && (
-              <img
-                src={`data:image/jpeg;base64,${book.image_url}`}
-                alt={book.book_title}
-                className="book-image"
-              />
-            )}
+            {book.image_url &&
+              JSON.parse(book.image_url).map((image, index) => (
+                <img
+                  key={index}
+                  src={`http://localhost:3002${image}`}
+                  alt={book.book_title}
+                  className="book-image"
+                />
+              ))}
             <div className="book-info">
               <h1>{book.book_title}</h1>
               <p>

@@ -10,56 +10,33 @@ import chemicon from "../../../src/components/Asset/chemicon.png";
 import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
 import meeicon from "../../../src/components/Asset/meeicon.png";
 import biochemicon from "../../../src/components/Asset/biochemicon.png";
-
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { IoIosImages } from "react-icons/io";
 import { BiTrash } from "react-icons/bi";
 
 const categories = [
-  {
-    label: "Software Engineering",
-    icon: sweicon,
-  },
-  {
-    label: "Computer Science Engineering",
-    icon: cseicon,
-  },
-  {
-    label: "Statistics",
-    icon: staticon,
-  },
-  {
-    label: "Physics",
-    icon: physicsicon,
-  },
-  {
-    label: "PME",
-    icon: pmeicon,
-  },
-  {
-    label: "Chemistry",
-    icon: chemicon,
-  },
-  {
-    label: "Chemical Engineering",
-    icon: Chemicalicon,
-  },
-  {
-    label: "Mechanical",
-    icon: meeicon,
-  },
-  {
-    label: "Polymer",
-    icon: pmeicon,
-  },
-  {
-    label: "BioChemistry",
-    icon: biochemicon,
-  },
+  { label: "Software Engineering", icon: sweicon },
+  { label: "Computer Science Engineering", icon: cseicon },
+  { label: "Statistics", icon: staticon },
+  { label: "Physics", icon: physicsicon },
+  { label: "PME", icon: pmeicon },
+  { label: "Chemistry", icon: chemicon },
+  { label: "Chemical Engineering", icon: Chemicalicon },
+  { label: "Mechanical", icon: meeicon },
+  { label: "Polymer", icon: pmeicon },
+  { label: "BioChemistry", icon: biochemicon },
 ];
 
 const CreateListing = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [formDescription, setFormDescription] = useState({
+    BookTitle: "",
+    AuthorName: "",
+    PublishDate: "",
+    Description: "",
+    price: 0,
+  });
+  const [photos, setPhotos] = useState([]);
 
   const toggleCategory = (label) => {
     setSelectedCategories((prevSelectedCategories) =>
@@ -69,14 +46,6 @@ const CreateListing = () => {
     );
   };
 
-  const [formDescription, setFormDescription] = useState({
-    BookTitle: "",
-    AuthorName: "",
-    PublishDate: "",
-    Description: "",
-    price: 0,
-  });
-
   const handleChangeDescription = (e) => {
     const { name, value } = e.target;
     setFormDescription({
@@ -85,10 +54,8 @@ const CreateListing = () => {
     });
   };
 
-  const [photos, setPhotos] = useState([]);
-
   const handleUploadPhotos = (e) => {
-    const newPhotos = e.target.files;
+    const newPhotos = Array.from(e.target.files);
     setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
   };
 
@@ -118,24 +85,23 @@ const CreateListing = () => {
       return;
     }
 
-    const formData = {
-      user_id: userId,
-      book_title: formDescription.BookTitle,
-      author: formDescription.AuthorName,
-      published_date: formDescription.PublishDate,
-      description: formDescription.Description,
-      image_url: photos.length > 0 ? URL.createObjectURL(photos[0]) : "",
-      category: selectedCategories.join(", "),
-      price: formDescription.price,
-    };
+    const formData = new FormData();
+    formData.append("user_id", userId);
+    formData.append("book_title", formDescription.BookTitle);
+    formData.append("author", formDescription.AuthorName);
+    formData.append("published_date", formDescription.PublishDate);
+    formData.append("description", formDescription.Description);
+    formData.append("category", selectedCategories.join(", "));
+    formData.append("price", formDescription.price);
+
+    photos.forEach((photo) => {
+      formData.append("images", photo);
+    });
 
     try {
       const response = await fetch("http://localhost:3002/upload-book-sell", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
       const result = await response.json();
@@ -162,7 +128,7 @@ const CreateListing = () => {
             <hr />
             <h3>Which of these categories best describes your Book?</h3>
             <div className="category-list">
-              {categories?.map((item, index) => (
+              {categories.map((item, index) => (
                 <div
                   className={`category ${
                     selectedCategories.includes(item.label) ? "selected" : ""
@@ -216,7 +182,6 @@ const CreateListing = () => {
                   onChange={handleChangeDescription}
                   required
                 />
-
                 <p>Now, set your PRICE (TK)</p>
                 <input
                   type="number"
@@ -257,38 +222,35 @@ const CreateListing = () => {
                         </label>
                       </>
                     )}
-
                     {photos.length >= 1 && (
                       <>
-                        {photos.map((photo, index) => {
-                          return (
-                            <Draggable
-                              key={index}
-                              draggableId={index.toString()}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <div
-                                  className="photo"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
+                        {photos.map((photo, index) => (
+                          <Draggable
+                            key={index}
+                            draggableId={index.toString()}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                className="photo"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <img
+                                  src={URL.createObjectURL(photo)}
+                                  alt="place"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemovePhoto(index)}
                                 >
-                                  <img
-                                    src={URL.createObjectURL(photo)}
-                                    alt="place"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => handleRemovePhoto(index)}
-                                  >
-                                    <BiTrash />
-                                  </button>
-                                </div>
-                              )}
-                            </Draggable>
-                          );
-                        })}
+                                  <BiTrash />
+                                </button>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
                         <input
                           id="image"
                           type="file"
