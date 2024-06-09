@@ -12,17 +12,31 @@ const Register = () => {
   const [profileImage, setProfileImage] = useState(null);
   // const navigate = useNavigate();
 
-  const createUser = () => {
-    Axios.post("http://localhost:3002/register", {
-      Email: email,
-      RegNo: regNo,
-      UserName: username,
-      Password: password,
-      ProfileImage: profileImage,
-    }).then(() => {
-      console.log("User has been registered");
+  const createUser = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("Email", email);
+    formData.append("RegNo", regNo);
+    formData.append("UserName", username);
+    formData.append("Password", password);
+    formData.append("ProfileImage", profileImage);
+
+    try {
+      const response = await Axios.post(
+        "http://localhost:5000/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("User has been registered", response.data);
       // navigate("/login");
-    });
+    } catch (error) {
+      console.error("Error registering user", error);
+    }
   };
 
   return (
@@ -42,7 +56,7 @@ const Register = () => {
         </div>
 
         <div className="formDiv flex">
-          <form action="" className="form grid">
+          <form action="" className="form grid" onSubmit={createUser}>
             <div className="inputDiv">
               <label htmlFor="email">Email</label>
               <div className="input flex">
@@ -50,9 +64,7 @@ const Register = () => {
                   type="email"
                   id="email"
                   placeholder="Enter Email address"
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
             </div>
@@ -61,12 +73,10 @@ const Register = () => {
               <label htmlFor="regNo">Registration No</label>
               <div className="input flex">
                 <input
-                  type="regNo"
+                  type="number"
                   id="regNo"
                   placeholder="Enter Registration No"
-                  onChange={(event) => {
-                    setRegNo(event.target.value);
-                  }}
+                  onChange={(event) => setRegNo(event.target.value)}
                 />
               </div>
             </div>
@@ -77,9 +87,7 @@ const Register = () => {
                   type="text"
                   id="username"
                   placeholder="Enter Username"
-                  onChange={(event) => {
-                    setUserName(event.target.value);
-                  }}
+                  onChange={(event) => setUserName(event.target.value)}
                 />
               </div>
             </div>
@@ -91,9 +99,7 @@ const Register = () => {
                   type="password"
                   id="password"
                   placeholder="Enter Password"
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
             </div>
@@ -105,16 +111,11 @@ const Register = () => {
                   id="profileImage"
                   accept="image/*"
                   placeholder="Upload Your Photo"
-                  onChange={(event) => {
-                    setProfileImage(event.target.value);
-                  }}
-                  // onChange={(event) => {
-                  //   setProfileImage(event.target.files[0]);
-                  // }}
+                  onChange={(event) => setProfileImage(event.target.files[0])}
                 />
               </div>
             </div>
-            <button type="submit" className="btn flex" onClick={createUser}>
+            <button type="submit" className="btn flex">
               <span>Register</span>
             </button>
             <span className="forgotPassword">

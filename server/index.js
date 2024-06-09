@@ -80,13 +80,34 @@ db.connect((err) => {
   });
 });
 
-app.post("/register", async (req, res) => {
-  const { Email, RegNo, UserName, Password, ProfileImage } = req.body;
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, "uploads");
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post("/register", upload.single("ProfileImage"), async (req, res) => {
+  const { Email, RegNo, UserName, Password } = req.body;
+
+  if (!req.file) {
+    return res.status(400).send("No profile image uploaded");
+  }
+
+  const ProfileImage = `/uploads/${req.file.filename}`;
 
   try {
     const hashedPassword = await bcrypt.hash(Password, 10);
     const SQL =
-      "INSERT INTO users (email, regNo, username, password,image) VALUES (?, ?, ?, ?,?)";
+      "INSERT INTO users (email, regNo, username, password, image) VALUES (?, ?, ?, ?, ?)";
     const values = [Email, RegNo, UserName, hashedPassword, ProfileImage];
 
     db.query(SQL, values, (err, results) => {
@@ -269,21 +290,6 @@ app.get("/", (req, res) => {
 //         }
 //     );
 // });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "uploads");
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath);
-    }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
 
 app.post("/upload-book-sell", upload.array("images", 10), (req, res) => {
   const {
