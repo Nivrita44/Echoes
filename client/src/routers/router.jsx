@@ -9,6 +9,7 @@ import Home from "../home/Home";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
+import Dashboard from "../components/Dashboard/Dashboard";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +51,16 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <CreateListing />,
+          },
+        ],
+      },
+      {
+        path: "/dashboard",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <Dashboard />,
           },
         ],
       },

@@ -145,9 +145,11 @@ app.post("/login", (req, res) => {
         res.cookie("token", token, { httpOnly: true, sameSite: "Strict" });
         res.status(200).send(user);
       } else {
+        console.log("Password does not match");
         res.status(400).send({ message: "Email and password don't match!" });
       }
     } else {
+      console.log("User not found with the provided email");
       res.status(400).send({ message: "Email and password don't match!" });
     }
   });
@@ -162,6 +164,11 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", { httpOnly: true, sameSite: "Strict" });
+  res.status(200).send({ message: "Logged out successfully" });
+});
 
 app.post("/upload-book", authenticateToken, (req, res) => {
   const {

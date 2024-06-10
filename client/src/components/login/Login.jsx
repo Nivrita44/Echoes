@@ -11,14 +11,20 @@ const Login = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3002/login", {
-      LoginEmail: loginEmail,
-      LoginPassword: loginPassword,
-    })
+    Axios.post(
+      "http://localhost:3002/login",
+      {
+        LoginEmail: loginEmail,
+        LoginPassword: loginPassword,
+      },
+      { withCredentials: true }
+    )
       .then((response) => {
         console.log(response);
+
         setErrorMessage("");
-        navigate("/create-listing"); // Redirect to home page
+        navigate("/dashboard");
+        // Redirect to home page
       })
       .catch((error) => {
         setErrorMessage("Error during login. Please try again.");
