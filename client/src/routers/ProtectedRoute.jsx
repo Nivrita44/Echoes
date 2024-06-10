@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { useState, useEffect } from "react";
 
 const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     Axios.get("http://localhost:3002/protected", { withCredentials: true })
-      .then(() => {
+      .then((response) => {
+        setUser(response.data);
         setIsAuthenticated(true);
         setLoading(false);
       })
@@ -43,7 +44,7 @@ const ProtectedRoute = () => {
       {isAuthenticated ? (
         <div>
           <button onClick={handleLogout}>Logout</button>
-          <Outlet />
+          <Outlet context={{ user }} />
         </div>
       ) : (
         <Navigate to="/login" />

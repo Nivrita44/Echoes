@@ -1,8 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 const Dashboard = () => {
+  const { user } = useOutletContext();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -21,6 +22,12 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
+      {user && (
+        <div>
+          <h2>Welcome, {user.username}!</h2>
+          <img src={`http://localhost:3002${user.image}`} alt="Profile" />
+        </div>
+      )}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

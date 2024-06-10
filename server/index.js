@@ -195,8 +195,27 @@ app.post("/upload-book", authenticateToken, (req, res) => {
   );
 });
 
+// app.get("/protected", authenticateToken, (req, res) => {
+//   res.send({ message: "This is a protected route" });
+// });
+
 app.get("/protected", authenticateToken, (req, res) => {
-  res.send({ message: "This is a protected route" });
+  const userId = req.user.userId;
+
+  const SQL = "SELECT id, email, username, image FROM users WHERE id = ?";
+  const values = [userId];
+
+  db.query(SQL, values, (err, results) => {
+    if (err) {
+      console.error("Error fetching user data:", err);
+      res.status(500).send({ error: "Error fetching user data" });
+    } else if (results.length > 0) {
+      const user = results[0];
+      res.status(200).send(user);
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  });
 });
 
 // Get all books
