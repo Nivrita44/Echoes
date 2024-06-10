@@ -6,10 +6,10 @@ import CreateListing from "../components/CreateListing/CreateListing";
 import Register from "../components/Register/Register";
 import Login from "../components/login/Login";
 import Home from "../home/Home";
+import HomeAfterLogin from "../home/HomeAfterLogin";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
-import Dashboard from "../components/Dashboard/Dashboard";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,16 +54,30 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // {
+      //   path: "/dashboard",
+      //   element: <ProtectedRoute />,
+      //   children: [
+      //     {
+      //       path: "",
+      //       element: <Dashboard />,
+      //     },
+      //   ],
+      // },
       {
-        path: "/dashboard",
+        path: "/HomeAfterLogin",
         element: <ProtectedRoute />,
         children: [
           {
             path: "",
-            element: <Dashboard />,
+            element: <HomeAfterLogin />,
           },
         ],
       },
+      // {
+      //   path: "/HomeAfterLogin",
+      //   element: <HomeAfterLogin />,
+      // },
     ],
   },
 ]);

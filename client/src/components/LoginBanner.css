@@ -1,0 +1,106 @@
+/* LoginBanner.css */
+
+/* Container */
+
+.login-banner-container {
+  width: 100%;
+  height: 700px;
+  /* background-image: url("https://st3.depositphotos.com/3800275/37740/i/450/depositphotos_377407064-stock-photo-books-on-wooden-desk-table.jpg"); */
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Centering the inner content */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 3rem;
+  /* Adding margin to place under navbar */
+}
+
+/* Responsive padding for large screens */
+
+@media (min-width: 1024px) {
+  .login-banner-container {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+}
+
+/* Inner container */
+
+.login-banner-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centering the inner content vertically */
+  gap: 3rem;
+}
+
+/* Left side content */
+
+.login-banner-left {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  /* Centering the inner content */
+}
+
+.login-banner-user {
+  text-align: center;
+}
+
+.login-banner-user h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.login-banner-user h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgb(8, 69, 115);
+}
+
+.login-banner-user img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-top: 1rem;
+  /* Adding margin to separate from welcome message */
+}
+
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+  /* Centering the search input and button */
+}
+
+.search-container input {
+  padding: 0.5rem;
+  border-radius: 0.25rem 0 0 0.25rem;
+  outline: none;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+}
+
+.search-container button {
+  background-color: #1e40af;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 500;
+  transition: all 0.2s ease-in;
+  border: none;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: black;
+}

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const LoginNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  //   const { user } = useOutletContext();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,14 +26,16 @@ const Navbar = () => {
     };
   }, []);
 
-  const navItems = [];
+  const navItems = [
+    { link: "Sell Your Book", path: "/create-listing" },
+    { link: "Logout", path: "/login" },
+  ];
 
   const menuItems = [
     { link: "Home", path: "/" },
     { link: "About", path: "/about" },
     { link: "Shop", path: "/shop" },
-    { link: "Login", path: "/login" },
-    { link: "Sign Up", path: "/register" },
+    { link: "Logout", path: "/login" },
   ];
 
   return (
@@ -65,12 +68,11 @@ const Navbar = () => {
           </ul>
 
           <div className="space-x-4 flex items-center relative">
-            Be a host
-            <img
-              src="path_to_profile_photo.jpg" // Replace with actual path to profile photo
-              alt="Profile"
+            {/* <img
+              src={`http://localhost:3002${user.image}`}
+              alt="Profile" // Replace with actual path to profile photo
               className="hidden lg:block w-8 h-8 rounded-full"
-            />
+            /> */}
             <button onClick={toggleMenu}>
               <FaBarsStaggered className="w-5 hover:text-blue-700" />
             </button>
@@ -96,4 +98,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default LoginNavbar;

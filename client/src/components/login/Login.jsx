@@ -23,7 +23,7 @@ const Login = () => {
         console.log(response);
 
         setErrorMessage("");
-        navigate("/dashboard");
+        navigate("/HomeAfterLogin");
         // Redirect to home page
       })
       .catch((error) => {
