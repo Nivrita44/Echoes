@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-// import { Link, useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
@@ -10,7 +10,7 @@ const Register = () => {
   const [regNo, setRegNo] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const createUser = async (event) => {
     event.preventDefault();
@@ -24,7 +24,7 @@ const Register = () => {
 
     try {
       const response = await Axios.post(
-        "http://localhost:5000/register",
+        "http://localhost:3002/register",
         formData,
         {
           headers: {
@@ -33,7 +33,7 @@ const Register = () => {
         }
       );
       console.log("User has been registered", response.data);
-      // navigate("/login");
+      navigate("/login");
     } catch (error) {
       console.error("Error registering user", error);
     }

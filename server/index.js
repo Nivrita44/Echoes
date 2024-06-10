@@ -6,9 +6,14 @@ const bcrypt = require("bcrypt");
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
-app.use(cors());
+const SECRET_KEY = "your_secret_key"; // Replace with your own secret key
+
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.listen(3002, () => {
   console.log("Server is running on port 3002");
@@ -47,11 +52,6 @@ db.connect((err) => {
       process.exit(1); // Exit the process with an error code
     } else {
       console.log("Table created or already exists");
-
-      // Start the server only after table creation
-      //   app.listen(3002, () => {
-      //     console.log("Server is running on port 3002");
-      //   });
     }
   });
 
@@ -75,7 +75,7 @@ db.connect((err) => {
       console.error("Table creation failed:", err);
       process.exit(1); // Exit the process with an error code
     } else {
-      console.log("new Table created or already exists");
+      console.log("New Table created or already exists");
     }
   });
 });
@@ -139,6 +139,10 @@ app.post("/login", (req, res) => {
       const user = results[0];
       const isMatch = await bcrypt.compare(LoginPassword, user.password);
       if (isMatch) {
+        const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
+          expiresIn: "1h",
+        });
+        res.cookie("token", token, { httpOnly: true, sameSite: "Strict" });
         res.status(200).send(user);
       } else {
         res.status(400).send({ message: "Email and password don't match!" });
@@ -149,7 +153,17 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/upload-book", (req, res) => {
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.sendStatus(403);
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
+app.post("/upload-book", authenticateToken, (req, res) => {
   const {
     book_title,
     author,
@@ -174,9 +188,13 @@ app.post("/upload-book", (req, res) => {
   );
 });
 
+app.get("/protected", authenticateToken, (req, res) => {
+  res.send({ message: "This is a protected route" });
+});
+
 // Get all books
 app.get("/all_books", (req, res) => {
-  db.query("SELECT * FROM books_inventory ", (err, results) => {
+  db.query("SELECT * FROM books_inventory", (err, results) => {
     if (err) {
       console.error("Error fetching books:", err);
       res.status(500).send(err);
@@ -232,101 +250,80 @@ app.delete("/delete-book/:id", (req, res) => {
 // Get single book sell inventory item
 app.get("/book-sell/:id", (req, res) => {
   const { id } = req.params;
-  console.log(`Fetching book with ID: ${id}`);
+  console.log(`Fetching book sell inventory with ID: ${id}`);
   const selectQuery = "SELECT * FROM book_sell_inventory WHERE id = ?";
-
   db.query(selectQuery, [id], (err, result) => {
     if (err) {
-      console.error("Error fetching book:", err);
+      console.error("Error fetching book sell inventory:", err);
       res.status(500).send(err);
     } else if (result.length === 0) {
+      console.log(`Book sell inventory with ID ${id} not found`);
       res.status(404).send({ message: "Book not found" });
     } else {
-      const book = result[0];
-      res.send(book);
+      console.log("Book sell inventory fetched successfully:", result[0]);
+      res.send(result[0]);
     }
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-//-----------------------------------------------Book info from user -----------------------------------------------------
-
-// app.post("/upload-book-sell", (req, res) => {
-//     const {
-//         user_id,
-//         book_title,
-//         author,
-//         published_date,
-//         description,
-//         image_url,
-//         category,
-//         price,
-//     } = req.body;
-
-//     const insertQuery =
-//         "INSERT INTO book_sell_inventory (user_id, book_title, author, published_date, description, image_url, category, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-//     db.query(
-//         insertQuery, [
-//             user_id,
-//             book_title,
-//             author,
-//             published_date,
-//             description,
-//             image_url,
-//             category,
-//             price,
-//         ],
-//         (err, result) => {
-//             if (err) {
-//                 console.error("Error inserting book:", err);
-//                 res.status(500).send(err);
-//             } else {
-//                 res.send({ id: result.insertId });
-//             }
-//         }
-//     );
-// });
-
-app.post("/upload-book-sell", upload.array("images", 10), (req, res) => {
-  const {
-    user_id,
-    book_title,
-    author,
-    published_date,
-    description,
-    category,
-    price,
-  } = req.body;
-  const imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
-
-  const insertQuery =
-    "INSERT INTO book_sell_inventory (user_id, book_title, author, published_date, description, image_url, category, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-  db.query(
-    insertQuery,
-    [
+// Post single book sell inventory item
+app.post(
+  "/sell-book",
+  upload.array("images", 10),
+  authenticateToken,
+  (req, res) => {
+    const {
       user_id,
       book_title,
       author,
       published_date,
       description,
-      JSON.stringify(imageUrls),
       category,
       price,
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("Error inserting book:", err);
-        res.status(500).send(err);
-      } else {
-        res.send({ id: result.insertId });
-      }
+    } = req.body;
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("No images uploaded");
     }
-  );
-});
+
+    const imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
+
+    const insertQuery =
+      "INSERT INTO book_sell_inventory (user_id, book_title, author, published_date, description, image_url, category, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    db.query(
+      insertQuery,
+      [
+        user_id,
+        book_title,
+        author,
+        published_date,
+        description,
+        JSON.stringify(imageUrls),
+        category,
+        price,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("Error inserting book:", err);
+          res.status(500).send(err);
+        } else {
+          res.send({ id: result.insertId });
+        }
+      }
+    );
+  }
+);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Error handling middleware
+app.use((req, res, next) => {
+  res.status(404).send({ message: "Not Found" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: "Internal Server Error" });
+});
+
+module.exports = app;

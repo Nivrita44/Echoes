@@ -18,7 +18,7 @@ const Login = () => {
       .then((response) => {
         console.log(response);
         setErrorMessage("");
-        navigate("/"); // Redirect to home page
+        navigate("/create-listing"); // Redirect to home page
       })
       .catch((error) => {
         setErrorMessage("Error during login. Please try again.");

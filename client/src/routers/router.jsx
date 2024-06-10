@@ -8,6 +8,7 @@ import Login from "../components/login/Login";
 import Home from "../home/Home";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
+import ProtectedRoute from "./ProtectedRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,7 +45,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/create-listing",
-        element: <CreateListing />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <CreateListing />,
+          },
+        ],
       },
     ],
   },
