@@ -65,12 +65,12 @@ const Navbar = () => {
           </ul>
 
           <div className="space-x-4 flex items-center relative">
-            Be a host
-            <img
+            {/* Be a host */}
+            {/* <img
               src="path_to_profile_photo.jpg" // Replace with actual path to profile photo
               alt="Profile"
               className="hidden lg:block w-8 h-8 rounded-full"
-            />
+            /> */}
             <button onClick={toggleMenu}>
               <FaBarsStaggered className="w-5 hover:text-blue-700" />
             </button>

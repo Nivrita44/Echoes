@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 const LoginNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  //   const { user } = useOutletContext();
+  const { user } = useOutletContext();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -32,7 +33,7 @@ const LoginNavbar = () => {
   ];
 
   const menuItems = [
-    { link: "Home", path: "/" },
+    { link: "Home", path: "/HomeAfterLogin" },
     { link: "About", path: "/about" },
     { link: "Shop", path: "/shop" },
     { link: "Logout", path: "/login" },
@@ -68,11 +69,12 @@ const LoginNavbar = () => {
           </ul>
 
           <div className="space-x-4 flex items-center relative">
-            {/* <img
+            <img
               src={`http://localhost:3002${user.image}`}
               alt="Profile" // Replace with actual path to profile photo
               className="hidden lg:block w-8 h-8 rounded-full"
-            /> */}
+            />
+
             <button onClick={toggleMenu}>
               <FaBarsStaggered className="w-5 hover:text-blue-700" />
             </button>

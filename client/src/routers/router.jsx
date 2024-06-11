@@ -54,16 +54,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "/dashboard",
-      //   element: <ProtectedRoute />,
-      //   children: [
-      //     {
-      //       path: "",
-      //       element: <Dashboard />,
-      //     },
-      //   ],
-      // },
       {
         path: "/HomeAfterLogin",
         element: <ProtectedRoute />,
@@ -74,10 +64,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "/HomeAfterLogin",
-      //   element: <HomeAfterLogin />,
-      // },
     ],
   },
 ]);

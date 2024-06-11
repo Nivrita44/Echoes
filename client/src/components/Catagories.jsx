@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
 import { categories } from "../data";
 import "../styles/Categories.scss";
-import { Link } from "react-router-dom";
 
 const Catagories = () => {
   return (
     <div className="categories">
       <h1>Explore Top Categories</h1>
       <p>
-        Explore our wide range of vacation rentals that cater to all types of
-        travelers. Immerse yourself in the local culture, enjoy the comforts of
-        home, and create unforgettable memories in your dream destination.
+        Discover Echoes, the perfect platform for university students to buy,
+        sell, and rent textbooks and study materials. Easily navigate through
+        various categories, connect with fellow students, and find the resources
+        you need at affordable prices. Join our community to make your academic
+        journey more sustainable and budget-friendly!
       </p>
 
       <div className="categories_list">
