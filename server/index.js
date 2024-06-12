@@ -78,6 +78,26 @@ db.connect((err) => {
       console.log("New Table created or already exists");
     }
   });
+
+  const createCartTableQuery = `
+CREATE TABLE IF NOT EXISTS sell_cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    book_id INT NOT NULL,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES book_sell_inventory(id)
+)
+`;
+
+  db.query(createCartTableQuery, function (err, result) {
+    if (err) {
+      console.error("Cart table creation failed:", err);
+      process.exit(1); // Exit the process with an error code
+    } else {
+      console.log("Cart table created or already exists");
+    }
+  });
 });
 
 const storage = multer.diskStorage({
@@ -367,6 +387,73 @@ app.get("/search-books", (req, res) => {
       res.status(500).send(err);
     } else {
       res.send(results);
+    }
+  });
+});
+
+// adding book to sell cart
+
+app.post("/add-to-cart", authenticateToken, (req, res) => {
+  const { book_id } = req.body;
+  const user_id = req.user.userId;
+
+  const insertQuery = "INSERT INTO sell_cart (user_id, book_id) VALUES (?, ?)";
+  db.query(insertQuery, [user_id, book_id], (err, result) => {
+    if (err) {
+      console.error("Error adding book to cart:", err);
+      res.status(500).send(err);
+    } else {
+      res.send({ message: "Book added to cart successfully!" });
+    }
+  });
+});
+
+//all books from cart of a specific user
+app.get("/cart", authenticateToken, (req, res) => {
+  const userId = req.user.userId;
+
+  const query = `
+      SELECT book_sell_inventory.*
+      FROM sell_cart
+      JOIN book_sell_inventory ON sell_cart.book_id = book_sell_inventory.id
+      WHERE sell_cart.user_id = ?
+    `;
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error("Error fetching cart books:", err);
+      res.status(500).send(err);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+//deleting book from cart
+
+app.delete("/delete_buy_cart", authenticateToken, (req, res) => {
+  const { bookIds } = req.body; // Expecting an array of book IDs to delete
+  const userId = req.user.userId;
+
+  if (!Array.isArray(bookIds) || bookIds.length === 0) {
+    return res
+      .status(400)
+      .send({ message: "No book IDs provided for deletion" });
+  }
+
+  const deleteQuery = `
+      DELETE FROM sell_cart
+      WHERE user_id = ? AND book_id IN (?)
+    `;
+
+  db.query(deleteQuery, [userId, bookIds], (err, result) => {
+    if (err) {
+      console.error("Error deleting books from cart:", err);
+      res.status(500).send(err);
+    } else if (result.affectedRows === 0) {
+      res.status(404).send({ message: "No books found in cart to delete" });
+    } else {
+      res.send({ message: "Books deleted from cart successfully" });
     }
   });
 });

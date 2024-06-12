@@ -21,20 +21,6 @@ const ProtectedRoute = () => {
       });
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await Axios.post(
-        "http://localhost:3002/logout",
-        {},
-        { withCredentials: true }
-      );
-      setIsAuthenticated(false);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
-
   if (loading) {
     return <div>Loading...</div>; // You can replace this with a spinner if you like
   }
@@ -43,7 +29,6 @@ const ProtectedRoute = () => {
     <>
       {isAuthenticated ? (
         <div>
-          <button onClick={handleLogout}></button>
           <Outlet context={{ user }} />
         </div>
       ) : (
