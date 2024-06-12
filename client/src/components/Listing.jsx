@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // Import Link component
 import { categories } from "../../data";
 import "../styles/Listing.scss";
 import ListingCard from "./ListingCard";
@@ -55,8 +56,11 @@ const Listing = () => {
         ))}
       </div>
       <div className="listings">
+        {/* Use Link component to wrap around each ListingCard */}
         {filteredBooks.map((book) => (
-          <ListingCard key={book.id} book={book} />
+          <Link key={book.id} to={`/book-sell/${book.id}`}>
+            <ListingCard book={book} />
+          </Link>
         ))}
       </div>
     </div>

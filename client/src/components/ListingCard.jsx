@@ -58,9 +58,8 @@ const ListingCard = ({ book }) => {
       <h3>{book.book_title}</h3>
       <p>{book.author}</p>
       <p>{book.category}</p>
-      <p>{book.description}</p>
       <p>
-        <span>bdt {book.price}</span>
+        <span>Tk : {book.price}</span>
       </p>
       <button className="favorite">
         <Favorite sx={{ color: "white" }} />
