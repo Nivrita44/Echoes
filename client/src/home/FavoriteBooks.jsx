@@ -5,7 +5,7 @@ const FavoriteBooks = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3002/all_books")
+    fetch("http://localhost:3002/recent_sell_books")
       .then((res) => res.json())
       .then((data) => setBooks(data));
   }, []);

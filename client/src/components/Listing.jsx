@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link component
+import { Link } from "react-router-dom";
 import { categories } from "../../data";
 import "../styles/Listing.scss";
 import ListingCard from "./ListingCard";

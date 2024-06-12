@@ -43,7 +43,7 @@ const ProtectedRoute = () => {
     <>
       {isAuthenticated ? (
         <div>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout}></button>
           <Outlet context={{ user }} />
         </div>
       ) : (
