@@ -1,11 +1,12 @@
 import Axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import "./LoginBanner.css";
 
 const LoginBanner = () => {
   const { user } = useOutletContext();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -18,6 +19,10 @@ const LoginBanner = () => {
     } catch (error) {
       console.error("Error logging out:", error);
     }
+  };
+
+  const handleSearch = () => {
+    navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
   };
 
   return (
@@ -45,8 +50,13 @@ const LoginBanner = () => {
               id="search"
               placeholder="Search an item"
               className="py-2 px-2 rounded-s-sm outline-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="bg-blue-700 px-6 py-2 text-white font-medium hover:bg-black transition-all ease-in duration-200">
+            <button
+              className="bg-blue-700 px-6 py-2 text-white font-medium hover:bg-black transition-all ease-in duration-200"
+              onClick={handleSearch}
+            >
               Search
             </button>
           </div>

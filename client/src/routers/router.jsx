@@ -10,6 +10,7 @@ import HomeAfterLogin from "../home/HomeAfterLogin";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
+import SearchResults from "../components/SearchResults";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +62,16 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <HomeAfterLogin />,
+          },
+        ],
+      },
+      {
+        path: "/search",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <SearchResults />,
           },
         ],
       },

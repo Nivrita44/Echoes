@@ -352,6 +352,25 @@ app.post(
   }
 );
 
+//search a book
+app.get("/search-books", (req, res) => {
+  const { query } = req.query;
+  const searchQuery = `
+      SELECT * FROM book_sell_inventory
+      WHERE book_title LIKE ? OR author LIKE ? OR category LIKE ?
+    `;
+  const searchValues = [`%${query}%`, `%${query}%`, `%${query}%`];
+
+  db.query(searchQuery, searchValues, (err, results) => {
+    if (err) {
+      console.error("Error fetching books:", err);
+      res.status(500).send(err);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Error handling middleware

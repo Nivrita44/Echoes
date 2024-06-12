@@ -9,6 +9,7 @@ import "../styles/ListingCard.scss";
 
 const ListingCard = ({ book }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
 
   const goToPrevSlide = (e) => {
@@ -27,12 +28,17 @@ const ListingCard = ({ book }) => {
     );
   };
 
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+  };
+
   const imageUrls = JSON.parse(book.image_url); // Assuming image_url is stored as a JSON string
 
   return (
     <div
       className="listing-card"
-      onClick={() => navigate(`/properties/${book.id}`)}
+      onClick={() => navigate(`/book-sell/${book.id}`)}
     >
       <div className="slider-container">
         <div
@@ -61,8 +67,11 @@ const ListingCard = ({ book }) => {
       <p>
         <span>Tk : {book.price}</span>
       </p>
-      <button className="favorite">
-        <Favorite sx={{ color: "white" }} />
+      <button
+        className={`favorite ${isFavorite ? "active" : ""}`}
+        onClick={handleFavoriteClick}
+      >
+        <Favorite sx={{ fontSize: "20px" }} />
       </button>
     </div>
   );
