@@ -86,7 +86,6 @@ const CreateListing = () => {
     }
 
     const formData = new FormData();
-    formData.append("user_id", userId);
     formData.append("book_title", formDescription.BookTitle);
     formData.append("author", formDescription.AuthorName);
     formData.append("published_date", formDescription.PublishDate);
@@ -99,9 +98,10 @@ const CreateListing = () => {
     });
 
     try {
-      const response = await fetch("http://localhost:3002/upload-book-sell", {
+      const response = await fetch("http://localhost:3002/sell-book", {
         method: "POST",
         body: formData,
+        credentials: "include", // Include credentials for cookies
       });
 
       const result = await response.json();
@@ -114,7 +114,6 @@ const CreateListing = () => {
       console.error("Error uploading book:", error);
     }
   };
-
   return (
     <>
       <div>
