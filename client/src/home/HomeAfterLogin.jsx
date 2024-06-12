@@ -1,9 +1,9 @@
 import React from "react";
 import Categories from "../components/Categories";
+import Listing from "../components/Listing";
 import LoginBanner from "../components/LoginBanner";
 import LoginNavbar from "../components/LoginNavbar";
 import FavoriteBooks from "./FavoriteBooks";
-
 const HomeAfterLogin = () => {
   return (
     <div>
@@ -11,6 +11,7 @@ const HomeAfterLogin = () => {
       <LoginBanner />
       <FavoriteBooks />
       <Categories />
+      <Listing />
     </div>
   );
 };
