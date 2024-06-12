@@ -1,11 +1,18 @@
 @import "./variables.scss";
 @import "./breakpoints.scss";
+.listing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center align the entire container
+}
+
 .category-list {
   padding: 50px 80px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 60px;
+  max-width: 800px; // Adjust this to ensure wrapping into two rows
   @include sm {
     padding: 50px 20px;
   }
@@ -15,6 +22,7 @@
     align-items: center;
     color: $darkgrey;
     cursor: pointer;
+    flex: 1 0 21%; // Adjust this value to fit items in two rows
     &_icon {
       width: 50px; // Adjust this size as needed
       height: 50px; // Adjust this size as needed
@@ -34,16 +42,18 @@
   }
   .selected {
     color: $pinkred;
+    border: 2px solid $pinkred;
+    border-radius: 5px;
   }
 }
 
 .listings {
-  padding: 0 60px 120px;
+  padding: 40px 60px 120px; // Adjust padding as needed
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 5px;
+  gap: 20px; // Adjust gap as needed
   @include lg {
-    padding: 0 20px 120px;
+    padding: 40px 20px 120px;
   }
 }
