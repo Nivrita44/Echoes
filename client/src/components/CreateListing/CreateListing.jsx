@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import "../CreateListing/CreateListingStyle.scss";
 import sweicon from "../../../src/components/Asset/sweicon.png";
@@ -34,9 +34,27 @@ const CreateListing = () => {
     AuthorName: "",
     PublishDate: "",
     Description: "",
-    price: 0,
+    price: "",
   });
   const [photos, setPhotos] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Fetch user ID when component mounts
+    const fetchUserId = async () => {
+      try {
+        const response = await fetch("http://localhost:3002/protected", {
+          credentials: "include",
+        });
+        const data = await response.json();
+        setUserId(data.id);
+      } catch (error) {
+        console.error("Error fetching user ID:", error);
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   const toggleCategory = (label) => {
     setSelectedCategories((prevSelectedCategories) =>
@@ -75,13 +93,16 @@ const CreateListing = () => {
     );
   };
 
-  const userId = 1; // Replace user ID
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (selectedCategories.length === 0) {
       alert("Please select at least one category.");
+      return;
+    }
+
+    if (!userId) {
+      alert("User not logged in.");
       return;
     }
 
@@ -106,12 +127,12 @@ const CreateListing = () => {
 
       const result = await response.json();
       if (response.ok) {
-        console.log("Book uploaded successfully:", result);
+        alert("Book uploaded successfully:", result);
       } else {
-        console.error("Error uploading book:", result);
+        alert("Error uploading book:", result);
       }
     } catch (error) {
-      console.error("Error uploading book:", error);
+      alert("Error uploading book:", error);
     }
   };
   return (
@@ -123,7 +144,7 @@ const CreateListing = () => {
         <h1>Sell your book</h1>
         <form onSubmit={handleSubmit}>
           <div className="create-listing_step1">
-            <h2>Step 1: Tell us about your Book</h2>
+            <h2> Tell us about your Book</h2>
             <hr />
             <h3>Which of these categories best describes your Book?</h3>
             <div className="category-list">
@@ -271,7 +292,9 @@ const CreateListing = () => {
               </Droppable>
             </DragDropContext>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
         </form>
       </div>
     </>

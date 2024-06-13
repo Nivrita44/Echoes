@@ -1,8 +1,16 @@
 @import "../../styles/variables.scss";
 @import "../../styles/breakpoints.scss";
 
+h1 {
+  font-size: 50px;
+  color: #333;
+  margin-bottom: 50px;
+  margin-top: 200px;
+  text-align: center;
+  font-weight: bold;
+}
+
 .create-listing {
-  background-color: $lightgrey;
   padding: 40px 60px 120px;
 
   @include mm {
@@ -26,6 +34,8 @@
 
     h2 {
       color: $pinkred;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     hr {
@@ -59,6 +69,7 @@
       flex-wrap: wrap;
       gap: 20px;
       padding: 0 20px;
+      margin-bottom: 40px;
 
       @include lg {
         padding: 0 20px;
@@ -109,66 +120,11 @@
       }
     }
 
-    .type-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
-      .type {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 600px;
-        padding: 15px 30px;
-        border: 1px solid $grey;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s ease;
-
-        &_text {
-          max-width: 400px;
-
-          h4 {
-            margin-bottom: 5px;
-          }
-        }
-
-        &_icon {
-          font-size: 30px;
-        }
-
-        &:hover {
-          border: 2px solid $pinkred;
-          background-color: $lightgrey;
-        }
-      }
-
-      .selected {
-        border: 2px solid $pinkred;
-        background-color: $lightgrey;
-      }
-    }
-
     .full {
       max-width: 700px;
     }
 
-    .half {
-      max-width: 700px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-
-      @include ml {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-    }
-
-    .location,
-    .title,
-    .description {
+    .Description {
       p {
         font-weight: 700;
         margin: 20px 0 10px;
@@ -177,7 +133,6 @@
       input,
       textarea {
         border: 2px solid deepblue; // deep blue outline
-        background-color: grey; // grey background
         padding: 15px 30px;
         border-radius: 10px;
         font-size: 16px;
@@ -189,70 +144,6 @@
         }
       }
     }
-
-    .basics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-
-      .basic {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        padding: 15px;
-        border: 1px solid $grey;
-        border-radius: 10px;
-
-        p {
-          font-weight: 600;
-        }
-
-        &_count {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          font-size: 20px;
-        }
-      }
-    }
-
-    .amenities {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-
-      .facility {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 200px;
-        height: 90px;
-        border: 1px solid $grey;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.2s ease;
-
-        &_icon {
-          font-size: 30px;
-        }
-
-        p {
-          font-weight: 600;
-        }
-
-        &:hover {
-          border: 2px solid $pinkred;
-          background-color: $lightgrey;
-        }
-      }
-
-      .selected {
-        border: 2px solid $pinkred;
-        background-color: $lightgrey;
-      }
-    }
-
     .photos {
       display: flex;
       flex-wrap: wrap;
@@ -321,75 +212,42 @@
         }
       }
     }
-
-    .title {
-      input {
-        border: 2px solid deepblue; // deep blue outline
-        background-color: grey; // grey background
-        padding: 15px 30px;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: 600;
-        width: 100%;
-
-        &:focus {
-          outline: none;
-        }
-      }
-    }
-
-    .description {
-      p {
-        font-weight: 700;
-        margin: 20px 0 10px;
+    .submit-button {
+      background-color: #dc3545;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background-color: #c82333;
       }
 
-      input,
-      textarea {
-        border: 2px solid deepblue; // deep blue outline
-        background-color: grey; // grey background
-        padding: 15px 30px;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: 600;
-        width: 600px;
-
-        @include ml {
-          width: 450px;
-        }
-
-        @include md {
-          width: 350px;
-        }
-
-        @include sm {
-          width: 280px;
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-
-      span {
-        font-size: 25px;
-        font-weight: 700;
-        margin-right: 20px;
-      }
-
-      .price {
-        width: 200px;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px #c82333;
       }
     }
   }
 
-  .submit_btn {
-    margin-top: 40px;
-
-    @include buttonStyle;
-
+  .submit-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
     &:hover {
-      box-shadow: 0 0 10px 3px rgb(117, 117, 117);
+      background-color: #c82333;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px #c82333;
     }
   }
 }
