@@ -84,13 +84,17 @@ const BuyCart = () => {
           <div>Your cart is empty</div>
         ) : (
           cartBooks.map((book) => (
-            <div key={book.id} className="listing-card">
-              <input
-                type="checkbox"
-                checked={selectedBooks.includes(book)}
-                onChange={() => handleSelect(book)}
-              />
-              <ListingCard book={book} />
+            <div key={book.id} className="listing-card-wrapper">
+              <div className="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  checked={selectedBooks.includes(book)}
+                  onChange={() => handleSelect(book)}
+                />
+              </div>
+              <div className="listing-card">
+                <ListingCard book={book} />
+              </div>
             </div>
           ))
         )}

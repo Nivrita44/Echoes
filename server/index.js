@@ -513,27 +513,6 @@ app.post("/add-to-wishlist", authenticateToken, (req, res) => {
   });
 });
 
-//all books from wishlist of a specific user
-// app.get("/sell_wishlist", authenticateToken, (req, res) => {
-//   const userId = req.user.userId;
-
-//   const query = `
-//       SELECT sell_wishlist.*
-//       FROM sell_cart
-//       JOIN sell_wishlist ON sell_cart.book_id = book_sell_inventory.id
-//       WHERE sell_cart.user_id = ?
-//     `;
-
-//   db.query(query, [userId], (err, results) => {
-//     if (err) {
-//       console.error("Error fetching wishlist books:", err);
-//       res.status(500).send(err);
-//     } else {
-//       res.send(results);
-//     }
-//   });
-// });
-
 app.get("/sell_wishlist", authenticateToken, (req, res) => {
   const userId = req.user.userId;
 
@@ -596,6 +575,41 @@ app.get("/wishlist", authenticateToken, (req, res) => {
       const wishlist = results.map((row) => row.book_id);
       res.send(wishlist);
     }
+  });
+});
+
+//wishlist to cart
+
+app.post("/add-to-cart-from-wishlist", authenticateToken, (req, res) => {
+  const { bookIds } = req.body;
+  const userId = req.user.userId;
+
+  if (!Array.isArray(bookIds) || bookIds.length === 0) {
+    return res.status(400).send({ message: "No book IDs provided" });
+  }
+
+  const insertQuery = "INSERT INTO sell_cart (user_id, book_id) VALUES ?";
+  const deleteQuery =
+    "DELETE FROM sell_wishlist WHERE user_id = ? AND book_id IN (?)";
+
+  const insertValues = bookIds.map((bookId) => [userId, bookId]);
+
+  db.query(insertQuery, [insertValues], (insertErr) => {
+    if (insertErr) {
+      console.error("Error adding books to cart:", insertErr);
+      return res.status(500).send({ message: "Error adding books to cart" });
+    }
+
+    db.query(deleteQuery, [userId, bookIds], (deleteErr) => {
+      if (deleteErr) {
+        console.error("Error removing books from wishlist:", deleteErr);
+        return res
+          .status(500)
+          .send({ message: "Error removing books from wishlist" });
+      }
+
+      res.send({ message: "Books moved to cart successfully!" });
+    });
   });
 });
 
