@@ -12,6 +12,7 @@ import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
 import SearchResults from "../components/SearchResults";
 import BuyCart from "../components/BuyCart";
+import BuyWishlist from "../components/BuyWishlist";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -83,6 +84,16 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <BuyCart />,
+          },
+        ],
+      },
+      {
+        path: "/view_buy_wishlist",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <BuyWishlist />,
           },
         ],
       },

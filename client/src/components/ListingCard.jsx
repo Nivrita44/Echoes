@@ -3,14 +3,27 @@ import {
   ArrowForwardIos,
   Favorite,
 } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ListingCard.scss";
+import axios from "axios";
 
 const ListingCard = ({ book }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3002/wishlist", { withCredentials: true })
+      .then((response) => {
+        const wishlist = response.data;
+        setIsFavorite(wishlist.includes(book.id));
+      })
+      .catch((error) => {
+        console.error("Error fetching wishlist:", error);
+      });
+  }, [book.id]);
 
   const goToPrevSlide = (e) => {
     e.stopPropagation();
@@ -31,6 +44,18 @@ const ListingCard = ({ book }) => {
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
+    axios
+      .post(
+        "http://localhost:3002/add-to-wishlist",
+        { book_id: book.id },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.error("Error adding/removing book from wishlist:", error);
+      });
   };
 
   const imageUrls = JSON.parse(book.image_url); // Assuming image_url is stored as a JSON string

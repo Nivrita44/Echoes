@@ -58,9 +58,7 @@ const Listing = () => {
       <div className="listings">
         {/* Use Link component to wrap around each ListingCard */}
         {filteredBooks.map((book) => (
-          <Link key={book.id} to={`/book-sell/${book.id}`}>
-            <ListingCard book={book} />
-          </Link>
+          <ListingCard book={book} />
         ))}
       </div>
     </div>

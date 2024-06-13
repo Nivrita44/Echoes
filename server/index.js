@@ -9,7 +9,7 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
-const SECRET_KEY = "your_secret_key"; // Replace with your own secret key
+const SECRET_KEY = "Thesecretkey"; // Replace with your own secret key
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
@@ -98,6 +98,25 @@ CREATE TABLE IF NOT EXISTS sell_cart (
       console.log("Cart table created or already exists");
     }
   });
+
+  const createWishlistTableQuery = `
+CREATE TABLE IF NOT EXISTS sell_wishlist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    book_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES book_sell_inventory(id)
+)
+`;
+
+  db.query(createWishlistTableQuery, function (err, result) {
+    if (err) {
+      console.error("Wishlist table creation failed:", err);
+      process.exit(1); // Exit the process with an error code
+    } else {
+      console.log("Wishlist table created or already exists");
+    }
+  });
 });
 
 const storage = multer.diskStorage({
@@ -160,7 +179,7 @@ app.post("/login", (req, res) => {
       const isMatch = await bcrypt.compare(LoginPassword, user.password);
       if (isMatch) {
         const token = jwt.sign({ userId: user.id }, SECRET_KEY, {
-          expiresIn: "1h",
+          expiresIn: "24h",
         });
         res.cookie("token", token, { httpOnly: true, sameSite: "Strict" });
         res.status(200).send(user);
@@ -432,7 +451,7 @@ app.get("/cart", authenticateToken, (req, res) => {
 //deleting book from cart
 
 app.delete("/delete_buy_cart", authenticateToken, (req, res) => {
-  const { bookIds } = req.body; // Expecting an array of book IDs to delete
+  const { bookIds } = req.body;
   const userId = req.user.userId;
 
   if (!Array.isArray(bookIds) || bookIds.length === 0) {
@@ -454,6 +473,128 @@ app.delete("/delete_buy_cart", authenticateToken, (req, res) => {
       res.status(404).send({ message: "No books found in cart to delete" });
     } else {
       res.send({ message: "Books deleted from cart successfully" });
+    }
+  });
+});
+
+app.post("/add-to-wishlist", authenticateToken, (req, res) => {
+  const { book_id } = req.body;
+  const user_id = req.user.userId;
+
+  const checkQuery =
+    "SELECT * FROM sell_wishlist WHERE user_id = ? AND book_id = ?";
+  db.query(checkQuery, [user_id, book_id], (err, results) => {
+    if (err) {
+      console.error("Error checking wishlist:", err);
+      res.status(500).send(err);
+    } else if (results.length > 0) {
+      const deleteQuery =
+        "DELETE FROM sell_wishlist WHERE user_id = ? AND book_id = ?";
+      db.query(deleteQuery, [user_id, book_id], (err, result) => {
+        if (err) {
+          console.error("Error removing book from wishlist:", err);
+          res.status(500).send(err);
+        } else {
+          res.send({ message: "Book removed from wishlist successfully!" });
+        }
+      });
+    } else {
+      const insertQuery =
+        "INSERT INTO sell_wishlist (user_id, book_id) VALUES (?, ?)";
+      db.query(insertQuery, [user_id, book_id], (err, result) => {
+        if (err) {
+          console.error("Error adding book to wishlist:", err);
+          res.status(500).send(err);
+        } else {
+          res.send({ message: "Book added to wishlist successfully!" });
+        }
+      });
+    }
+  });
+});
+
+//all books from wishlist of a specific user
+// app.get("/sell_wishlist", authenticateToken, (req, res) => {
+//   const userId = req.user.userId;
+
+//   const query = `
+//       SELECT sell_wishlist.*
+//       FROM sell_cart
+//       JOIN sell_wishlist ON sell_cart.book_id = book_sell_inventory.id
+//       WHERE sell_cart.user_id = ?
+//     `;
+
+//   db.query(query, [userId], (err, results) => {
+//     if (err) {
+//       console.error("Error fetching wishlist books:", err);
+//       res.status(500).send(err);
+//     } else {
+//       res.send(results);
+//     }
+//   });
+// });
+
+app.get("/sell_wishlist", authenticateToken, (req, res) => {
+  const userId = req.user.userId;
+
+  const query = `
+      SELECT book_sell_inventory.*
+      FROM sell_wishlist
+      JOIN book_sell_inventory ON sell_wishlist.book_id = book_sell_inventory.id
+      WHERE sell_wishlist.user_id = ?
+    `;
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error("Error fetching wishlist books:", err);
+      res.status(500).send(err);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+//deleting book from wishlist
+
+app.delete("/delete_buy_wishlist", authenticateToken, (req, res) => {
+  const { bookIds } = req.body;
+  const userId = req.user.userId;
+
+  if (!Array.isArray(bookIds) || bookIds.length === 0) {
+    return res
+      .status(400)
+      .send({ message: "No book IDs provided for deletion" });
+  }
+
+  const deleteQuery = `
+      DELETE FROM sell_wishlist
+      WHERE user_id = ? AND book_id IN (?)
+    `;
+
+  db.query(deleteQuery, [userId, bookIds], (err, result) => {
+    if (err) {
+      console.error("Error deleting books from wishlist:", err);
+      res.status(500).send(err);
+    } else if (result.affectedRows === 0) {
+      res.status(404).send({ message: "No books found in wishlist to delete" });
+    } else {
+      res.send({ message: "Books deleted from wishlist successfully" });
+    }
+  });
+});
+
+//user wishlist
+app.get("/wishlist", authenticateToken, (req, res) => {
+  const user_id = req.user.userId;
+
+  const query = "SELECT book_id FROM sell_wishlist WHERE user_id = ?";
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching wishlist:", err);
+      res.status(500).send(err);
+    } else {
+      const wishlist = results.map((row) => row.book_id);
+      res.send(wishlist);
     }
   });
 });
