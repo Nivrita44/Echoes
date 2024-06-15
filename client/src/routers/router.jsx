@@ -40,10 +40,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
-      {
-        path: "/checkout",
-        element: <CheckOutPage />,
-      },
+      // {
+      //   path: "/checkout",
+      //   element: <CheckOutPage />,
+      // },
       {
         path: "/register",
         element: <Register />,
@@ -69,6 +69,16 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <HomeAfterLogin />,
+          },
+        ],
+      },
+      {
+        path: "/checkout",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <CheckOutPage />,
           },
         ],
       },

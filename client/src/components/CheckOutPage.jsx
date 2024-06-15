@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/CheckoutPage.scss";
+import ListingCard from "./ListingCard";
 
 const CheckOutPage = () => {
   const location = useLocation();
@@ -12,18 +13,23 @@ const CheckOutPage = () => {
 
   if (!selectedBooks || !totalPayment) {
     navigate("/HomeAfterLogin");
-    return null;
   }
+  console.log("Selected Books:", selectedBooks);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       const bookIds = selectedBooks.map((book) => book.id);
-      await axios.post("http://localhost:3002/checkout", {
-        shippingAddress,
-        paymentMethod,
-        totalPayment,
-      });
+      await axios.post(
+        "http://localhost:3002/checkout",
+        {
+          shippingAddress,
+          paymentMethod,
+          totalPayment,
+          bookIds,
+        },
+        { withCredentials: true }
+      );
       alert("Checkout successful");
       navigate("/");
     } catch (err) {
@@ -58,6 +64,16 @@ const CheckOutPage = () => {
             <option value="PayPal">PayPal</option>
             <option value="Cash on Delivery">Cash on Delivery</option>
           </select>
+        </div>
+        <div className="book-details">
+          <h3>Selected Books:</h3>
+          <ul>
+            {selectedBooks.map((book) => (
+              <li key={book.id}>
+                <ListingCard book={book} />
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="total-payment">
           <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
