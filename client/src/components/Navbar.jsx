@@ -76,7 +76,7 @@ const Navbar = () => {
             </button>
             {/* Mobile Dropdown */}
             {isMenuOpen && (
-              <div className="absolute top-full left-0 w-full bg-blue-700 py-2 px-4 space-y-2">
+              <div className="absolute top-full left-0 bg-blue-700 py-2 px-4 space-y-2">
                 {menuItems.map(({ link, path }) => (
                   <Link
                     key={path}

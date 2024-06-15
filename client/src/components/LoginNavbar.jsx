@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import "../components/LoginNavbar.css";
+import "../styles/LoginNavbar.scss";
 
 const LoginNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,7 +82,7 @@ const LoginNavbar = () => {
             </button>
             {/* Mobile Dropdown */}
             {isMenuOpen && (
-              <div className="absolute top-full left-0 w-full bg-blue-700 py-2 px-4 space-y-2">
+              <div className="absolute top-full left-0  bg-blue-700 py-2 px-4 space-y-2">
                 {menuItems.map(({ link, path }) => (
                   <Link
                     key={path}
