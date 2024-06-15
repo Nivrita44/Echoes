@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ListingCard from "./ListingCard";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/BuyCart.scss";
+import ListingCard from "./ListingCard";
 
 const BuyCart = () => {
   const [cartBooks, setCartBooks] = useState([]);
@@ -9,6 +10,7 @@ const BuyCart = () => {
   const [error, setError] = useState(null);
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [totalPayment, setTotalPayment] = useState(0);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchCartBooks = async () => {
@@ -69,8 +71,7 @@ const BuyCart = () => {
       alert("Please select books to buy.");
       return;
     }
-    // Implement buy logic here
-    alert("Buy functionality to be implemented.");
+    navigate("/checkout", { state: { selectedBooks, totalPayment } });
   };
 
   if (loading) return <div>Loading...</div>;

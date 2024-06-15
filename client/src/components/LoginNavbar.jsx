@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import "../components/LoginNavbar.css";
 
 const LoginNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,8 +36,9 @@ const LoginNavbar = () => {
   const menuItems = [
     { link: "Home", path: "/HomeAfterLogin" },
     { link: "About", path: "/about" },
-    { link: "Shop", path: "/shop" },
-    { link: "Logout", path: "/login" },
+    { link: "See WishList", path: "/view_buy_wishlist" },
+    { link: "view Cart", path: "/view_buy_cart" },
+    { link: "Logout", path: "/Home" },
   ];
 
   return (

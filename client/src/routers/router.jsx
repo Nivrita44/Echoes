@@ -2,17 +2,18 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import About from "../components/About";
 import Blog from "../components/Blog";
+import BuyCart from "../components/BuyCart";
+import BuyWishlist from "../components/BuyWishlist";
+import CheckOutPage from "../components/CheckOutPage";
 import CreateListing from "../components/CreateListing/CreateListing";
 import Register from "../components/Register/Register";
+import SearchResults from "../components/SearchResults";
 import Login from "../components/login/Login";
 import Home from "../home/Home";
 import HomeAfterLogin from "../home/HomeAfterLogin";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
-import SearchResults from "../components/SearchResults";
-import BuyCart from "../components/BuyCart";
-import BuyWishlist from "../components/BuyWishlist";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckOutPage />,
       },
       {
         path: "/register",

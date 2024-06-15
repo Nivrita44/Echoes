@@ -1,3 +1,5 @@
+/* Navbar container */
+
 .header {
   width: 100%;
   position: fixed;
@@ -11,10 +13,6 @@
 
 .header.sticky {
   background-color: #e0f2f1;
-  /* Light blue background for sticky state */
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 .navbar {
@@ -24,9 +22,7 @@
   align-items: center;
   text-align: center;
   position: relative;
-  /* Add relative positioning */
   z-index: 100;
-  /* Ensure it is above other content */
 }
 
 /* Logo styles */
@@ -38,12 +34,10 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #007acc;
-  /* Blue text color for logo */
 }
 
 .navbar .logo:hover {
   color: #005b99;
-  /* Darker blue text color on hover */
 }
 
 /* Navbar items styles */
@@ -56,13 +50,11 @@
   margin-right: 1rem;
   text-transform: uppercase;
   color: #333;
-  /* Dark text color for nav items */
   cursor: pointer;
 }
 
 .nav-items .nav-item:hover {
   color: #007acc;
-  /* Blue text color on hover */
 }
 
 /* Profile image styles */
@@ -84,7 +76,6 @@
 
 .menu-button:hover {
   color: #007acc;
-  /* Blue text color on hover */
 }
 
 /* Mobile dropdown menu styles */
@@ -92,30 +83,25 @@
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  right: 0;
-  /* Align to the right for better UX */
+  left: 0;
+  width: 100%;
   background-color: #007acc;
-  /* Blue background for dropdown menu */
   padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   z-index: 200;
-  /* Ensure it stays above other content */
   border-radius: 0.25rem;
-  /* Add border radius for a better look */
 }
 
 .dropdown-menu .dropdown-item {
   text-transform: uppercase;
   color: white;
-  /* White text color for dropdown items */
   cursor: pointer;
 }
 
 .dropdown-menu .dropdown-item:hover {
   color: #e0f2f1;
-  /* Light blue text color on hover */
 }
 
 /* Media queries for responsiveness */

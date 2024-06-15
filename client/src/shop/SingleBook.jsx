@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../styles/SingleBook.scss";
 
 function SingleBook() {
   const { id } = useParams();
+  const navigate = useNavigate(); // Get the navigate function from react-router-dom
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,6 +48,13 @@ function SingleBook() {
       console.error("Error adding book to cart:", err);
       alert("Failed to add book to cart.");
     }
+  };
+
+  const handleBuy = () => {
+    // Navigate to checkout with selectedBooks and totalPayment state
+    navigate("/checkout", {
+      state: { selectedBooks: [book], totalPayment: book.price },
+    });
   };
 
   if (loading) return <div>Loading...</div>;
@@ -93,7 +101,9 @@ function SingleBook() {
               <button className="cart-button" onClick={addToCart}>
                 Add To Cart
               </button>
-              <button className="buy-button">Buy</button>
+              <button className="buy-button" onClick={handleBuy}>
+                Buy
+              </button>
             </div>
           </div>
         </div>
