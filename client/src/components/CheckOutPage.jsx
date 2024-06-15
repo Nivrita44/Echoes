@@ -1,4 +1,3 @@
-// CheckOutPage.jsx
 import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,7 +7,6 @@ const CheckOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedBooks, totalPayment } = location.state || {};
-  const [customerName, setCustomerName] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Credit Card");
 
@@ -22,10 +20,8 @@ const CheckOutPage = () => {
     try {
       const bookIds = selectedBooks.map((book) => book.id);
       await axios.post("http://localhost:3002/checkout", {
-        customerName,
         shippingAddress,
         paymentMethod,
-        bookIds,
         totalPayment,
       });
       alert("Checkout successful");
@@ -40,16 +36,6 @@ const CheckOutPage = () => {
     <div className="checkout-container">
       <h2>Checkout</h2>
       <form onSubmit={handleFormSubmit}>
-        <div className="form-group">
-          <label htmlFor="customerName">Name</label>
-          <input
-            type="text"
-            id="customerName"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-            required
-          />
-        </div>
         <div className="form-group">
           <label htmlFor="shippingAddress">Shipping Address</label>
           <input

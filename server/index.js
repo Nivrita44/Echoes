@@ -125,14 +125,18 @@ CREATE TABLE IF NOT EXISTS sell_wishlist (
     });
 
     const createCheckoutTableQuery = `
-        CREATE TABLE IF NOT EXISTS checkout_info (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        customer_name VARCHAR(255) NOT NULL,
-        shipping_address TEXT NOT NULL,
-        payment_method VARCHAR(50) NOT NULL,
-        book_ids TEXT NOT NULL, 
-        total_payment DECIMAL(10, 2) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+       CREATE TABLE IF NOT EXISTS checkout_info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    shipping_address TEXT NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    book_ids TEXT NOT NULL, 
+    total_payment DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INT,
+    cart_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (cart_id) REFERENCES sell_cart(id)
     )
     `;
 
@@ -417,22 +421,35 @@ app.post(
 );
 
 //enter checkout info
-app.post('/checkout', (req, res) => {
-    const { customerName, shippingAddress, paymentMethod, bookIds, totalPayment } = req.body;
+app.post('/checkout', authenticateToken, async(req, res) => {
+    const { shippingAddress, paymentMethod, totalPayment } = req.body;
+    const userId = req.user.userId;
 
-    const query = `
-      INSERT INTO checkout_info (customer_name, shipping_address, payment_method, book_ids, total_payment)
-      VALUES (?, ?, ?, ?, ?)
-    `;
+    try {
+        // Fetch customer name from users table
+        const customerNameQuery = 'SELECT username FROM users WHERE id = ?';
+        const userResult = await db.query(customerNameQuery, [userId]);
+        const customerName = userResult[0].username;
 
-    connection.query(query, [customerName, shippingAddress, paymentMethod, bookIds.join(','), totalPayment], (err, results) => {
-        if (err) {
-            console.error('Error inserting data into checkout_info table:', err);
-            return res.status(500).send('Server error');
-        }
+        // Fetch book IDs from sell_cart
+        const bookIdsQuery = 'SELECT book_id FROM sell_cart WHERE user_id = ?';
+        const cartResult = await db.query(bookIdsQuery, [userId]);
+        const bookIds = cartResult.map(row => row.book_id);
+
+        // Insert into checkout_info
+        const insertQuery = `
+            INSERT INTO checkout_info (customer_name, shipping_address, payment_method, book_ids, total_payment)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        await db.query(insertQuery, [customerName, shippingAddress, paymentMethod, bookIds.join(','), totalPayment]);
+
         res.status(200).send('Checkout information saved successfully');
-    });
+    } catch (error) {
+        console.error('Error processing checkout:', error);
+        res.status(500).send('Server error');
+    }
 });
+
 
 //search a book
 app.get("/search-books", (req, res) => {
