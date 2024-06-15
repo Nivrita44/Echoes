@@ -381,6 +381,18 @@ app.post(
   }
 );
 
+// Get all books
+app.get("/all_books", (req, res) => {
+  db.query("SELECT * FROM book_sell_inventory", (err, results) => {
+    if (err) {
+      console.error("Error fetching books:", err);
+      res.status(500).send(err);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
 app.post("/checkout", authenticateToken, (req, res) => {
   const { shippingAddress, paymentMethod, totalPayment, bookIds } = req.body;
   const userId = req.user.userId;
