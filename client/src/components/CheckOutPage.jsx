@@ -1,6 +1,8 @@
+// CheckOutPage.js
 import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Reciept from "../components/Reciept";
 import "../styles/CheckoutPage.scss";
 import ListingCard from "./ListingCard";
 
@@ -12,11 +14,11 @@ const CheckOutPage = () => {
   const [phone, setPhone] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Credit Card");
+  const [showReciept, setShowReciept] = useState(null); // State to control showing the receipt
 
   if (!selectedBooks || !totalPayment) {
     navigate("/HomeAfterLogin");
   }
-  console.log("Selected Books:", selectedBooks);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +36,27 @@ const CheckOutPage = () => {
         },
         { withCredentials: true }
       );
-      alert("Checkout successful");
-      navigate("/");
+      setShowReciept(true); // Show receipt after successful checkout
     } catch (err) {
       console.error("Error during checkout:", err);
       alert("Checkout failed. Please try again.");
     }
   };
+
+  if (showReciept) {
+    return (
+      <Reciept
+        recieptData={{
+          email,
+          phone,
+          shippingAddress,
+          paymentMethod,
+          totalPayment,
+          selectedBooks,
+        }}
+      />
+    );
+  }
 
   return (
     <div className="checkout-container">

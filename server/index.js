@@ -323,7 +323,7 @@ app.get("/recent_sell_books", (req, res) => {
 
 // Get single book sell inventory item
 app.get("/book-sell/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.id;
     console.log(`Fetching book sell inventory with ID: ${id}`);
     const selectQuery = "SELECT * FROM book_sell_inventory WHERE id = ?";
     db.query(selectQuery, [id], (err, result) => {
