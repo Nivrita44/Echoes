@@ -8,6 +8,8 @@ const CheckOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedBooks, totalPayment } = location.state || {};
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Credit Card");
 
@@ -23,6 +25,8 @@ const CheckOutPage = () => {
       await axios.post(
         "http://localhost:3002/checkout",
         {
+          email,
+          phone,
           shippingAddress,
           paymentMethod,
           totalPayment,
@@ -42,6 +46,26 @@ const CheckOutPage = () => {
     <div className="checkout-container">
       <h2>Checkout</h2>
       <form onSubmit={handleFormSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="phone">Mobile Number</label>
+          <input
+            type="phone"
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="shippingAddress">Shipping Address</label>
           <input
