@@ -14,6 +14,12 @@ import HomeAfterLogin from "../home/HomeAfterLogin";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import ProtectedRoute from "./ProtectedRoute";
+import CreateRentListing from "../components/CreateRentListing/CreateRentListing";
+import RentListing from "../components/RentListing";
+import SingleRentBook from "../shop/SingleRentBook";
+import RentCart from "../components/RentCart";
+import RentWishlist from "../components/RentWishlist";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -109,6 +115,64 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <BuyWishlist />,
+          },
+        ],
+      },
+
+      {
+        path: "/view_buy_wishlist",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <BuyWishlist />,
+          },
+        ],
+      },
+
+      {
+        path: "/create-rent_listing",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <CreateRentListing />,
+          },
+        ],
+      },
+
+      {
+        path: "/view_rent_listing",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <RentListing />,
+          },
+        ],
+      },
+      {
+        path: "/book-rent/:id",
+        element: <SingleRentBook />,
+      },
+
+      {
+        path: "/view_rent_cart",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <RentCart />,
+          },
+        ],
+      },
+      {
+        path: "/view_rent_wishlist",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <RentWishlist />,
           },
         ],
       },
