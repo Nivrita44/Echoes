@@ -6,19 +6,19 @@ import BuyCart from "../components/BuyCart";
 import BuyWishlist from "../components/BuyWishlist";
 import CheckOutPage from "../components/CheckOutPage";
 import CreateListing from "../components/CreateListing/CreateListing";
+import CreateRentListing from "../components/CreateRentListing/CreateRentListing";
 import Register from "../components/Register/Register";
+import RentCart from "../components/RentCart";
+import RentListing from "../components/RentListing";
+import RentWishlist from "../components/RentWishlist";
 import SearchResults from "../components/SearchResults";
 import Login from "../components/login/Login";
 import Home from "../home/Home";
 import HomeAfterLogin from "../home/HomeAfterLogin";
 import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
-import ProtectedRoute from "./ProtectedRoute";
-import CreateRentListing from "../components/CreateRentListing/CreateRentListing";
-import RentListing from "../components/RentListing";
 import SingleRentBook from "../shop/SingleRentBook";
-import RentCart from "../components/RentCart";
-import RentWishlist from "../components/RentWishlist";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -131,7 +131,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/create-rent_listing",
+        path: "/create-rent-listing",
         element: <ProtectedRoute />,
         children: [
           {

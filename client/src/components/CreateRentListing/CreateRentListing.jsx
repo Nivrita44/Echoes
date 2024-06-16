@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar";
-import "../CreateRentListing/CreateRentListing.scss";
-import sweicon from "../../../src/components/Asset/sweicon.png";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { BiTrash } from "react-icons/bi";
+import { IoIosImages } from "react-icons/io";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
+import biochemicon from "../../../src/components/Asset/biochemicon.png";
+import chemicon from "../../../src/components/Asset/chemicon.png";
 import cseicon from "../../../src/components/Asset/cseicon.png";
-import staticon from "../../../src/components/Asset/staticon.png";
+import meeicon from "../../../src/components/Asset/meeicon.png";
 import physicsicon from "../../../src/components/Asset/physics.png";
 import pmeicon from "../../../src/components/Asset/pmeicon.png";
-import chemicon from "../../../src/components/Asset/chemicon.png";
-import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
-import meeicon from "../../../src/components/Asset/meeicon.png";
-import biochemicon from "../../../src/components/Asset/biochemicon.png";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { IoIosImages } from "react-icons/io";
-import { BiTrash } from "react-icons/bi";
+import staticon from "../../../src/components/Asset/staticon.png";
+import sweicon from "../../../src/components/Asset/sweicon.png";
+import "../CreateRentListing/CreateRentListing.scss";
+import Navbar from "../Navbar";
 
 const categories = [
   { label: "Software Engineering", icon: sweicon },
@@ -38,6 +39,7 @@ const CreateRentListing = () => {
   });
   const [photos, setPhotos] = useState([]);
   const [userId, setUserId] = useState(null);
+  const navigate = useNavigate(); // Use useNavigate hook
 
   useEffect(() => {
     // Fetch user ID when component mounts
@@ -127,7 +129,8 @@ const CreateRentListing = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert("Book uploaded successfully:", result);
+        alert("Book uploaded successfully");
+        navigate("/HomeAfterLogin"); // Redirect to /HomeAfterLogin
       } else {
         alert("Error uploading book:", result);
       }
@@ -135,6 +138,7 @@ const CreateRentListing = () => {
       alert("Error uploading book:", error);
     }
   };
+
   return (
     <>
       <div>

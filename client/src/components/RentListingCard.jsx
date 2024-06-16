@@ -3,14 +3,16 @@ import {
   ArrowForwardIos,
   Favorite,
 } from "@mui/icons-material";
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ListingCard.scss";
-import axios from "axios";
 
 const RentListingCard = ({ book }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(null); // New state for total price
+  const [rentDays, setRentDays] = useState(null); // New state for rent days
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +24,18 @@ const RentListingCard = ({ book }) => {
       })
       .catch((error) => {
         console.error("Error fetching wishlist:", error);
+      });
+
+    axios
+      .get(`http://localhost:3002/rent-cart/total-price/${book.id}`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setTotalPrice(response.data.total_price); // Assuming the response structure
+        setRentDays(response.data.rent_days); // Fetch rent_days from backend
+      })
+      .catch((error) => {
+        console.error("Error fetching total price:", error);
       });
   }, [book.id]);
 
@@ -58,7 +72,7 @@ const RentListingCard = ({ book }) => {
       });
   };
 
-  const imageUrls = JSON.parse(book.image_url); // Assuming image_url is stored as a JSON string
+  const imageUrls = JSON.parse(book.image_url);
 
   return (
     <div
@@ -90,8 +104,16 @@ const RentListingCard = ({ book }) => {
       <p>{book.author}</p>
       <p>{book.category}</p>
       <p>
-        <span>Tk : {book.price}</span>
+        <span>Price (per day): Tk {book.price}</span>
       </p>
+      <p>
+        <span>Total Price: Tk {book.total_price}</span>
+      </p>
+
+      <p>
+        <span>Rent Days: {book.rent_days}</span>
+      </p>
+
       <button
         className={`favorite ${isFavorite ? "active" : ""}`}
         onClick={handleFavoriteClick}

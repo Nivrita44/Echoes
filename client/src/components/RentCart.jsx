@@ -41,7 +41,7 @@ const RentCart = () => {
   };
 
   const calculateTotal = (books) => {
-    const total = books.reduce((sum, book) => sum + book.price, 0);
+    const total = books.reduce((sum, book) => sum + book.total_price, 0);
     setTotalPayment(total);
   };
 
@@ -60,7 +60,7 @@ const RentCart = () => {
       alert("Deletion successful.");
       setCartBooks(cartBooks.filter((book) => !selectedBooks.includes(book)));
       setSelectedBooks([]);
-      setTotalPayment(0);
+      calculateTotal(cartBooks.filter((book) => !selectedBooks.includes(book)));
     } catch (err) {
       alert("Error deleting books. Please try again.");
     }

@@ -9,6 +9,8 @@ function SingleRentBook() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [rentDays, setRentDays] = useState(1); // Default to 1 day
+  const [totalPayment, setTotalPayment] = useState(0);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -27,6 +29,18 @@ function SingleRentBook() {
     fetchBook();
   }, [id]);
 
+  // Function to calculate total payment based on rent days and book price
+  const calculateTotalPayment = () => {
+    if (book) {
+      const totalPrice = rentDays * book.price;
+      setTotalPayment(totalPrice);
+    }
+  };
+
+  useEffect(() => {
+    calculateTotalPayment(); // Calculate total payment whenever rentDays or book changes
+  }, [rentDays, book]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-GB", {
@@ -38,11 +52,21 @@ function SingleRentBook() {
 
   const addToCart = async () => {
     try {
+      console.log("Adding to cart with:", {
+        book_id: id,
+        rentDays,
+        totalPayment,
+      });
       const response = await axios.post(
         "http://localhost:3002/add-to-rent-cart",
-        { book_id: id },
+        {
+          book_id: id,
+          rent_days: rentDays,
+          total_price: totalPayment,
+        },
         { withCredentials: true }
       );
+      console.log("Response from backend:", response.data);
       alert("Book added to cart successfully!");
     } catch (err) {
       console.error("Error adding book to cart:", err);
@@ -53,8 +77,15 @@ function SingleRentBook() {
   const handleBuy = () => {
     // Navigate to checkout with selectedBooks and totalPayment state
     navigate("/checkout", {
-      state: { selectedBooks: [book], totalPayment: book.price },
+      state: { selectedBooks: [book], totalPayment: totalPayment },
     });
+  };
+
+  const handleRentDaysChange = (e) => {
+    const days = parseInt(e.target.value, 10); // Ensure base 10 parsing
+    if (!isNaN(days) && days >= 1 && days <= 30) {
+      setRentDays(days);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -94,8 +125,22 @@ function SingleRentBook() {
               <span>{book.category}</span>
             </div>
             <div className="info-item">
-              <strong>Price(Per Pay):</strong>
+              <strong>Price (Per Day):</strong>
               <span>{book.price}</span>
+            </div>
+            <div className="info-item">
+              <strong>Rent Days:</strong>
+              <input
+                type="number"
+                value={rentDays}
+                onChange={handleRentDaysChange}
+                min={1}
+                max={30} // Assuming a maximum of 30 days
+              />
+            </div>
+            <div className="info-item">
+              <strong>Total Price:</strong>
+              <span>{totalPayment}</span>
             </div>
             <div className="buttons">
               <button className="cart-button" onClick={addToCart}>
