@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ListingCard from "./ListingCard";
+import React, { useEffect, useState } from "react";
 import "../styles/BuyWishlist.scss";
+import ListingCard from "./ListingCard";
+import LoginNavbar from "./LoginNavbar";
 
 const BuyWishlist = () => {
   const [wishlistBooks, setWishlistBooks] = useState([]);
@@ -50,30 +51,35 @@ const BuyWishlist = () => {
   };
 
   return (
-    <div className="buy-wishlist">
-      <h2>Your Wishlist</h2>
-      <div className="wishlist-container">
-        {wishlistBooks.length > 0 ? (
-          wishlistBooks.map((book) => (
-            <div key={book.id} className="listing-card-container">
-              <input
-                type="checkbox"
-                checked={selectedBooks.includes(book.id)}
-                onChange={() => handleSelectBook(book.id)}
-              />
-              <ListingCard book={book} />
-            </div>
-          ))
-        ) : (
-          <p>Your wishlist is empty.</p>
+    <>
+      <div>
+        <LoginNavbar />
+      </div>
+      <div className="buy-wishlist">
+        <h2>Your Wishlist</h2>
+        <div className="wishlist-container">
+          {wishlistBooks.length > 0 ? (
+            wishlistBooks.map((book) => (
+              <div key={book.id} className="listing-card-container">
+                <input
+                  type="checkbox"
+                  checked={selectedBooks.includes(book.id)}
+                  onChange={() => handleSelectBook(book.id)}
+                />
+                <ListingCard book={book} />
+              </div>
+            ))
+          ) : (
+            <p>Your wishlist is empty.</p>
+          )}
+        </div>
+        {selectedBooks.length > 0 && (
+          <button className="add-to-cart-button" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         )}
       </div>
-      {selectedBooks.length > 0 && (
-        <button className="add-to-cart-button" onClick={handleAddToCart}>
-          Add to Cart
-        </button>
-      )}
-    </div>
+    </>
   );
 };
 

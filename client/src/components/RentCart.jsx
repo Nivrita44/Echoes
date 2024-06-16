@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/BuyCart.scss";
+import LoginNavbar from "./LoginNavbar";
 import RentListingCard from "./RentListingCard";
 
 const RentCart = () => {
@@ -78,36 +79,41 @@ const RentCart = () => {
   if (error) return <div>Error loading cart: {error.message}</div>;
 
   return (
-    <div className="cart-container">
-      <h2>Viewing Cart</h2>
-      <div className="listing-cards-container">
-        {cartBooks.length === 0 ? (
-          <div>Your cart is empty</div>
-        ) : (
-          cartBooks.map((book) => (
-            <div key={book.id} className="listing-card-wrapper">
-              <div className="checkbox-wrapper">
-                <input
-                  type="checkbox"
-                  checked={selectedBooks.includes(book)}
-                  onChange={() => handleSelect(book)}
-                />
+    <>
+      <div>
+        <LoginNavbar />
+      </div>
+      <div className="cart-container">
+        <h2>Viewing Cart</h2>
+        <div className="listing-cards-container">
+          {cartBooks.length === 0 ? (
+            <div>Your cart is empty</div>
+          ) : (
+            cartBooks.map((book) => (
+              <div key={book.id} className="listing-card-wrapper">
+                <div className="checkbox-wrapper">
+                  <input
+                    type="checkbox"
+                    checked={selectedBooks.includes(book)}
+                    onChange={() => handleSelect(book)}
+                  />
+                </div>
+                <div className="listing-card">
+                  <RentListingCard book={book} />
+                </div>
               </div>
-              <div className="listing-card">
-                <RentListingCard book={book} />
-              </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
+        <div className="total-payment">
+          <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
+        </div>
+        <div className="cart-actions">
+          <button onClick={handleBuy}>Buy</button>
+          <button onClick={handleDelete}>Delete</button>
+        </div>
       </div>
-      <div className="total-payment">
-        <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
-      </div>
-      <div className="cart-actions">
-        <button onClick={handleBuy}>Buy</button>
-        <button onClick={handleDelete}>Delete</button>
-      </div>
-    </div>
+    </>
   );
 };
 

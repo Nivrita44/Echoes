@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Reciept from "../components/Reciept";
 import "../styles/CheckoutPage.scss";
 import ListingCard from "./ListingCard";
+import LoginNavbar from "./LoginNavbar";
 
 const CheckOutPage = () => {
   const location = useLocation();
@@ -45,16 +46,21 @@ const CheckOutPage = () => {
 
   if (showReciept) {
     return (
-      <Reciept
-        recieptData={{
-          email,
-          phone,
-          shippingAddress,
-          paymentMethod,
-          totalPayment,
-          selectedBooks,
-        }}
-      />
+      <>
+        <div>
+          <LoginNavbar />
+        </div>
+        <Reciept
+          recieptData={{
+            email,
+            phone,
+            shippingAddress,
+            paymentMethod,
+            totalPayment,
+            selectedBooks,
+          }}
+        />
+      </>
     );
   }
 
@@ -99,9 +105,6 @@ const CheckOutPage = () => {
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
-            <option value="Credit Card">Credit Card</option>
-            <option value="Debit Card">Debit Card</option>
-            <option value="PayPal">PayPal</option>
             <option value="Cash on Delivery">Cash on Delivery</option>
           </select>
         </div>

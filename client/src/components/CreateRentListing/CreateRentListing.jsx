@@ -13,7 +13,7 @@ import pmeicon from "../../../src/components/Asset/pmeicon.png";
 import staticon from "../../../src/components/Asset/staticon.png";
 import sweicon from "../../../src/components/Asset/sweicon.png";
 import "../CreateRentListing/CreateRentListing.scss";
-import Navbar from "../Navbar";
+import LoginNavbar from "../LoginNavbar";
 
 const categories = [
   { label: "Software Engineering", icon: sweicon },
@@ -142,7 +142,7 @@ const CreateRentListing = () => {
   return (
     <>
       <div>
-        <Navbar />
+        <LoginNavbar />
       </div>
       <div className="create-listing">
         <h1>Rent your book</h1>

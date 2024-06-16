@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar";
-import "../CreateListing/CreateListingStyle.scss";
-import sweicon from "../../../src/components/Asset/sweicon.png";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { BiTrash } from "react-icons/bi";
+import { IoIosImages } from "react-icons/io";
+import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
+import biochemicon from "../../../src/components/Asset/biochemicon.png";
+import chemicon from "../../../src/components/Asset/chemicon.png";
 import cseicon from "../../../src/components/Asset/cseicon.png";
-import staticon from "../../../src/components/Asset/staticon.png";
+import meeicon from "../../../src/components/Asset/meeicon.png";
 import physicsicon from "../../../src/components/Asset/physics.png";
 import pmeicon from "../../../src/components/Asset/pmeicon.png";
-import chemicon from "../../../src/components/Asset/chemicon.png";
-import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
-import meeicon from "../../../src/components/Asset/meeicon.png";
-import biochemicon from "../../../src/components/Asset/biochemicon.png";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { IoIosImages } from "react-icons/io";
-import { BiTrash } from "react-icons/bi";
+import staticon from "../../../src/components/Asset/staticon.png";
+import sweicon from "../../../src/components/Asset/sweicon.png";
+import "../CreateListing/CreateListingStyle.scss";
+import LoginNavbar from "../LoginNavbar";
 
 const categories = [
   { label: "Software Engineering", icon: sweicon },
@@ -138,7 +138,7 @@ const CreateListing = () => {
   return (
     <>
       <div>
-        <Navbar />
+        <LoginNavbar />
       </div>
       <div className="create-listing">
         <h1>Sell your book</h1>

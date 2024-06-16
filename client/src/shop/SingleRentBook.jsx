@@ -52,11 +52,6 @@ function SingleRentBook() {
 
   const addToCart = async () => {
     try {
-      console.log("Adding to cart with:", {
-        book_id: id,
-        rentDays,
-        totalPayment,
-      });
       const response = await axios.post(
         "http://localhost:3002/add-to-rent-cart",
         {
@@ -66,7 +61,6 @@ function SingleRentBook() {
         },
         { withCredentials: true }
       );
-      console.log("Response from backend:", response.data);
       alert("Book added to cart successfully!");
     } catch (err) {
       console.error("Error adding book to cart:", err);
@@ -82,7 +76,7 @@ function SingleRentBook() {
   };
 
   const handleRentDaysChange = (e) => {
-    const days = parseInt(e.target.value, 10); // Ensure base 10 parsing
+    const days = parseInt(e.target.value);
     if (!isNaN(days) && days >= 1 && days <= 30) {
       setRentDays(days);
     }
