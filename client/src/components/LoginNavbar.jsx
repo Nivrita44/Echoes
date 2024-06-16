@@ -29,6 +29,7 @@ const LoginNavbar = () => {
   }, []);
 
   const navItems = [
+    { link: "Rent Your Book", path: "/create-rent-listing" },
     { link: "Sell Your Book", path: "/create-listing" },
     { link: "Logout", path: "/login" },
   ];
@@ -39,6 +40,8 @@ const LoginNavbar = () => {
     { link: "See WishList", path: "/view_buy_wishlist" },
     { link: "view Cart", path: "/view_buy_cart" },
     { link: "Logout", path: "/Home" },
+    { link: "See Rent WishList", path: "/view_rent _wishlist" },
+    { link: "view Rent Cart", path: "/view_rent_cart" },
   ];
 
   return (
