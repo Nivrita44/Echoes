@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import "./LoginBanner.css";
+import BGimg from "../../src/components/Asset/login.jpg";
 
 const LoginBanner = () => {
   const { user } = useOutletContext();
@@ -28,6 +29,11 @@ const LoginBanner = () => {
   return (
     <div
       className="login-banner-container"
+      style={{
+        backgroundImage: `url(${BGimg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
       onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1)")}
       onMouseLeave={(e) => (e.currentTarget.style.filter = "brightness(1)")}
     >
