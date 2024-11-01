@@ -11,7 +11,7 @@ const RecentlyRent = () => {
   }, []);
   return (
     <div>
-      <RentBookCard books={books} headline="Recently Added Books" />
+      <RentBookCard books={books} headline="Recently Added Books for Rent" />
     </div>
   );
 };

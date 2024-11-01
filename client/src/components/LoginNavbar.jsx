@@ -9,9 +9,9 @@ const LoginNavbar = () => {
   const { user } = useOutletContext();
   const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // const toggleMenu = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +29,7 @@ const LoginNavbar = () => {
   }, []);
 
   const navItems = [
+    { link: "Home", path: "/HomeAfterLogin" },
     { link: "Rent Your Book", path: "/create-rent-listing" },
     { link: "Sell Your Book", path: "/create-listing" },
     { link: "Logout", path: "/login" },
@@ -45,22 +46,22 @@ const LoginNavbar = () => {
   ];
 
   return (
-    <header className="w-full bg-transparent fixed top-0 left-0 right-0 z-50 transition-all ease-in duration-300">
-      <nav
-        className={`py-4 lg:px-24 px-4 ${
-          isSticky ? "sticky top-0 left-0 right-0 bg-blue-300 " : ""
-        }`}
-      >
+    <header
+      className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isSticky ? "bg-[#D2B48C]" : "bg-transparent"
+      }`}
+    >
+      <nav className="py-4 lg:px-24 px-4">
         <div className="flex justify-between items-center text-base gap-10">
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-700 flex items-center gap-2"
+            className="text-4xl font-bold text-coffee flex items-center gap-2"
           >
             <FaBlog className="inline-block" />
             Echoes
           </Link>
 
-          {/* nav items*/}
+          {/* nav items */}
           <ul className="md:flex space-x-12 hidden">
             {navItems.map(({ link, path }) => (
               <Link
@@ -76,16 +77,17 @@ const LoginNavbar = () => {
           <div className="space-x-4 flex items-center relative">
             <img
               src={`http://localhost:3002${user.image}`}
-              alt="Profile" // Replace with actual path to profile photo
+              alt="Profile"
               className="hidden lg:block w-8 h-8 rounded-full"
             />
 
-            <button onClick={toggleMenu}>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
               <FaBarsStaggered className="w-5 hover:text-blue-700" />
             </button>
+
             {/* Mobile Dropdown */}
             {isMenuOpen && (
-              <div className="absolute top-full left-0  bg-blue-700 py-2 px-4 space-y-2">
+              <div className="absolute top-full left-0 bg-blue-700 py-2 px-4 space-y-2">
                 {menuItems.map(({ link, path }) => (
                   <Link
                     key={path}
@@ -104,5 +106,4 @@ const LoginNavbar = () => {
     </header>
   );
 };
-
 export default LoginNavbar;

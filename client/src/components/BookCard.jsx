@@ -1,17 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { FaCartShopping } from "react-icons/fa6";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "../styles/RecentlyRent.scss";
 
 const BookCard = ({ headline, books }) => {
   const navigate = useNavigate();
 
   return (
     <div className="my-16 px-4 lg:px-24">
-      <h2 className="text-5xl text-center font-bold text-black my-5">
+      <h2
+        className="text-5xl text-center font-bold text-black my-5"
+        style={{ marginBottom: "5rem" }}
+      >
         {headline}
       </h2>
 
@@ -38,6 +41,7 @@ const BookCard = ({ headline, books }) => {
           }}
           modules={[Pagination]}
           className="mySwiper w-full h-full"
+          style={{ paddingBottom: "3rem" }}
         >
           {books.map((book) => {
             const imageUrls = JSON.parse(book.image_url);
@@ -49,24 +53,27 @@ const BookCard = ({ headline, books }) => {
             return (
               <SwiperSlide key={book.id}>
                 <div
-                  className="relative cursor-pointer"
+                  className="book-card"
                   onClick={() => navigate(`/book-sell/${book.id}`)}
                 >
-                  <img
-                    src={`http://localhost:3002${firstImageUrl}`}
-                    alt={book.book_title}
-                  />
+                  <div className="book-image-container">
+                    <img
+                      src={`http://localhost:3002${firstImageUrl}`}
+                      alt={book.book_title}
+                      className="book-image"
+                    />
+                    {/* </div>
                   <div className="absolute top-3 right-3 bg-blue-600 hover:bg-black p-2 rounded ">
                     <FaCartShopping className="w-4 h-4 text-white" />
                   </div>
-                </div>
-                <div>
-                  <div>
-                    <h3>{book.book_title}</h3>
-                    <p>{book.author}</p>
+                </div> */}
+                  </div>
+                  <div className="book-details">
+                    <h3 className="book-title">{book.book_title}</h3>
+                    <p className="book-author">{book.author}</p>
                   </div>
                   <div>
-                    <p>{book.price} tk</p>
+                    <p className="book-price">{book.price} tk</p>
                   </div>
                 </div>
               </SwiperSlide>

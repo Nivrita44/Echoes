@@ -2,7 +2,6 @@ import Axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import "./LoginBanner.css";
-import BGimg from "../../src/components/Asset/login.jpg";
 
 const LoginBanner = () => {
   const { user } = useOutletContext();
@@ -30,7 +29,7 @@ const LoginBanner = () => {
     <div
       className="login-banner-container"
       style={{
-        backgroundImage: `url(${BGimg})`,
+        // backgroundImage: `url(${BGimg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

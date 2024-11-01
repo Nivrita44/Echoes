@@ -16,6 +16,7 @@ import mee from "./src/components/Asset/mee.jpg";
 import physics from "./src/components/Asset/phy.jpg";
 import pme from "./src/components/Asset/pme.jpg";
 import stat from "./src/components/Asset/stat.jpg";
+import stationary from "./src/components/Asset/stationary.png";
 import swe from "./src/components/Asset/swe.jpg";
 
 export const categories = [{
@@ -76,6 +77,11 @@ export const categories = [{
         img: biochem,
         label: "BioChemistry",
         icon: biochemicon,
+        description: "This property is in a spooky cave!",
+    },
+    {
+        label: "Stationeries",
+        icon: stationary,
         description: "This property is in a spooky cave!",
     },
 ];

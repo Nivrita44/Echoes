@@ -11,7 +11,7 @@ const FavoriteBooks = () => {
   }, []);
   return (
     <div>
-      <BookCard books={books} headline="Recently Added Books" />
+      <BookCard books={books} headline="Recently Added Books For Sale" />
     </div>
   );
 };

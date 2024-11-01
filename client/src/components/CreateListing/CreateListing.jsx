@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { BiTrash } from "react-icons/bi";
 import { IoIosImages } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import Chemicalicon from "../../../src/components/Asset/Chemicalicon.png";
 import biochemicon from "../../../src/components/Asset/biochemicon.png";
 import chemicon from "../../../src/components/Asset/chemicon.png";
@@ -10,6 +11,7 @@ import meeicon from "../../../src/components/Asset/meeicon.png";
 import physicsicon from "../../../src/components/Asset/physics.png";
 import pmeicon from "../../../src/components/Asset/pmeicon.png";
 import staticon from "../../../src/components/Asset/staticon.png";
+import stationary from "../../../src/components/Asset/stationary.png";
 import sweicon from "../../../src/components/Asset/sweicon.png";
 import "../CreateListing/CreateListingStyle.scss";
 import LoginNavbar from "../LoginNavbar";
@@ -25,6 +27,7 @@ const categories = [
   { label: "Mechanical", icon: meeicon },
   { label: "Polymer", icon: pmeicon },
   { label: "BioChemistry", icon: biochemicon },
+  { label: "Stationery", icon: stationary },
 ];
 
 const CreateListing = () => {
@@ -38,7 +41,7 @@ const CreateListing = () => {
   });
   const [photos, setPhotos] = useState([]);
   const [userId, setUserId] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch user ID when component mounts
     const fetchUserId = async () => {
@@ -127,7 +130,8 @@ const CreateListing = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert("Book uploaded successfully:", result);
+        alert("Book uploaded successfully:");
+        navigate("/HomeAfterLogin");
       } else {
         alert("Error uploading book:", result);
       }

@@ -1,52 +1,43 @@
 @import "../../styles/variables.scss";
 @import "../../styles/breakpoints.scss";
-
 h1 {
   font-size: 50px;
   color: #333;
   margin-bottom: 50px;
-  margin-top: 200px;
+  margin-top: 40px;
   text-align: center;
   font-weight: bold;
 }
 
 .create-listing {
   padding: 40px 60px 120px;
-
   @include mm {
     padding: 40px 20px;
   }
-
   h1 {
     color: $blue;
   }
-
   &_step1,
   &_step2 {
     background-color: white;
     padding: 30px 40px;
     border-radius: 20px;
     margin-top: 40px;
-
     @include sm {
       padding: 30px 20px;
     }
-
     h2 {
       color: $pinkred;
       font-size: 20px;
       font-weight: bold;
     }
-
     hr {
       margin: 15px 0 25px;
     }
-
     h3 {
       margin: 40px 0 20px;
       color: $blue;
     }
-
     input,
     textarea {
       border: 2px solid black; // deep blue outline
@@ -56,12 +47,10 @@ h1 {
       font-size: 16px;
       font-weight: 600;
       width: 100%;
-
       &:focus {
         outline: none;
       }
     }
-
     .category-list {
       display: flex;
       justify-content: center;
@@ -70,75 +59,64 @@ h1 {
       gap: 20px;
       padding: 0 20px;
       margin-bottom: 40px;
-
       @include lg {
         padding: 0 20px;
       }
-
       @include md {
         padding: 0;
       }
-
       .category {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 150px;
-        height: 150px; // Increased height to ensure enough space for icon and label
+        height: 150px;
         border: 1px solid $grey;
         border-radius: 10px;
         cursor: pointer;
         transition: 0.2s ease;
-
         &_icon {
-          width: 50px; // Adjusted width for better visibility
-          height: 50px; // Adjusted height for better visibility
-          margin-bottom: 10px; // Space between the icon and label
+          width: 50px;
+          height: 50px;
+          margin-bottom: 10px;
           img {
-            width: 100%; // Ensure the img tag takes the full width of the parent
-            height: 100%; // Ensure the img tag takes the full height of the parent
-            object-fit: contain; // Ensure the icon maintains its aspect ratio
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
           }
         }
-
         p {
           font-weight: 600;
           text-align: center;
           color: black;
         }
-
         &:hover {
           border: 2px solid $pinkred;
           background-color: $lightgrey;
         }
       }
-
       .selected {
         border: 2px solid $pinkred;
         background-color: $lightgrey;
       }
     }
-
     .full {
       max-width: 700px;
     }
-
     .Description {
       p {
         font-weight: 700;
         margin: 20px 0 10px;
       }
-
       input,
       textarea {
-        border: 2px solid deepblue; // deep blue outline
+        border: 2px solid deepblue;
         padding: 15px 30px;
         border-radius: 10px;
         font-size: 16px;
         font-weight: 600;
         width: 100%;
-
         &:focus {
           outline: none;
         }
@@ -148,18 +126,15 @@ h1 {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
-
       .photo {
         position: relative;
         width: 250px;
         height: 150px;
         cursor: move;
-
         img {
           width: 100%;
           height: 100%;
         }
-
         button {
           position: absolute;
           right: 0;
@@ -169,13 +144,11 @@ h1 {
           background-color: rgba(255, 255, 255, 0.8);
           font-size: 20px;
           cursor: pointer;
-
           &:hover {
             color: $pinkred;
           }
         }
       }
-
       label {
         display: flex;
         flex-direction: column;
@@ -183,30 +156,24 @@ h1 {
         align-items: center;
         cursor: pointer;
         border: 1px dashed $grey;
-
         .icon {
           font-size: 60px;
         }
-
         p {
           font-weight: 600;
           text-align: center;
         }
       }
-
       .together {
         width: 250px;
         height: 150px;
       }
-
       .alone {
         padding: 40px 100px;
         border-radius: 10px;
-
         @include mm {
           padding: 40px 80px;
         }
-
         @include sm {
           padding: 40px 30px;
         }
@@ -224,14 +191,12 @@ h1 {
       &:hover {
         background-color: #c82333;
       }
-
       &:focus {
         outline: none;
         box-shadow: 0 0 5px #c82333;
       }
     }
   }
-
   .submit-button {
     background-color: #dc3545;
     color: white;
@@ -244,7 +209,6 @@ h1 {
     &:hover {
       background-color: #c82333;
     }
-
     &:focus {
       outline: none;
       box-shadow: 0 0 5px #c82333;

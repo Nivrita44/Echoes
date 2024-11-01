@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
+import { FaBarsStaggered, FaBlog, FaXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -25,11 +25,8 @@ const Navbar = () => {
     };
   }, []);
 
-  const navItems = [];
-
-  const menuItems = [
+  const navItems = [
     { link: "Home", path: "/" },
-    { link: "About", path: "/about" },
     { link: "Shop", path: "/shop" },
     { link: "Login", path: "/login" },
     { link: "Sign Up", path: "/register" },
@@ -45,13 +42,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center text-base gap-10">
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-700 flex items-center gap-2"
+            className="text-3xl font-bold text-white-700 flex items-center gap-2"
           >
             <FaBlog className="inline-block" />
             Echoes
           </Link>
 
-          {/* nav items*/}
+          {/* nav items for large screen */}
           <ul className="md:flex space-x-12 hidden">
             {navItems.map(({ link, path }) => (
               <Link
@@ -64,32 +61,36 @@ const Navbar = () => {
             ))}
           </ul>
 
-          <div className="space-x-4 flex items-center relative">
-            {/* Be a host */}
-            {/* <img
-              src="path_to_profile_photo.jpg" // Replace with actual path to profile photo
-              alt="Profile"
-              className="hidden lg:block w-8 h-8 rounded-full"
-            /> */}
-            <button onClick={toggleMenu}>
-              <FaBarsStaggered className="w-5 hover:text-blue-700" />
+          {/* menu button for mobile devices */}
+          <div className="lg:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-black focus:outline-none"
+            >
+              {isMenuOpen ? (
+                <FaXmark className="h-5 w-5 text-black" />
+              ) : (
+                <FaBarsStaggered className="h-5 w-5 text-black" />
+              )}
             </button>
-            {/* Mobile Dropdown */}
-            {isMenuOpen && (
-              <div className="absolute top-full left-0 bg-blue-700 py-2 px-4 space-y-2">
-                {menuItems.map(({ link, path }) => (
-                  <Link
-                    key={path}
-                    to={path}
-                    className="block text-base text-white uppercase cursor-pointer"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link}
-                  </Link>
-                ))}
-              </div>
-            )}
           </div>
+        </div>
+        {/* menu for small devices */}
+        <div
+          className={`space-y-4 px-4 py-7 bg-black-700 ${
+            isMenuOpen ? "block fixed top-0 left-0 right-0 mt-14" : "hidden"
+          }`}
+        >
+          {navItems.map(({ link, path }) => (
+            <Link
+              key={path}
+              to={path}
+              className="block text-base text-white uppercase cursor-pointer"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {link}
+            </Link>
+          ))}
         </div>
       </nav>
     </header>

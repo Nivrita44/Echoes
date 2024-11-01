@@ -1,18 +1,26 @@
 @import "./variables.scss";
 @import "./breakpoints.scss";
+.listing-heading {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: #6a2b22;
+}
+
 .listing-container {
   display: flex;
   flex-direction: column;
-  align-items: center; // Center align the entire container
+  align-items: center;
 }
 
 .category-list {
   padding: 50px 80px;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 60px;
-  max-width: 800px; // Adjust this to ensure wrapping into two rows
+  flex-wrap: nowrap;
+  gap: 20px;
+  max-width: 100%;
   @include sm {
     padding: 50px 20px;
   }
@@ -22,19 +30,21 @@
     align-items: center;
     color: $darkgrey;
     cursor: pointer;
-    flex: 1 0 21%; // Adjust this value to fit items in two rows
+    flex: 0 1 80px;
+    width: 80px;
     &_icon {
-      width: 50px; // Adjust this size as needed
-      height: 50px; // Adjust this size as needed
+      width: 40px;
+      height: 40px;
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain; // Ensures the image scales while maintaining aspect ratio
+        object-fit: contain;
       }
     }
     p {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
+      margin-top: 5px;
     }
     &:hover {
       color: $pinkred;
@@ -42,17 +52,16 @@
   }
   .selected {
     color: $pinkred;
-    border: 2px solid $pinkred;
     border-radius: 5px;
   }
 }
 
 .listings {
-  padding: 40px 60px 120px; // Adjust padding as needed
+  padding: 40px 60px 120px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px; // Adjust gap as needed
+  gap: 20px;
   @include lg {
     padding: 40px 20px 120px;
   }

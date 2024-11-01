@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { categories } from "../../data";
 import "../styles/Listing.scss";
 import ListingCard from "./ListingCard";
@@ -39,6 +38,7 @@ const Listing = () => {
 
   return (
     <div className="listing-container">
+      <h1 className="listing-heading">Books for sale</h1>
       <div className="category-list">
         {categories?.map((category, index) => (
           <div
@@ -57,9 +57,12 @@ const Listing = () => {
       </div>
       <div className="listings">
         {/* Use Link component to wrap around each ListingCard */}
-        {filteredBooks.map((book) => (
-          <ListingCard book={book} />
-        ))}
+        {/* Check if there are no books and display a message */}
+        {filteredBooks.length === 0 ? (
+          <p>Sorry, No book is available in this category.</p> // Message when no books are found
+        ) : (
+          filteredBooks.map((book) => <ListingCard book={book} />)
+        )}
       </div>
     </div>
   );

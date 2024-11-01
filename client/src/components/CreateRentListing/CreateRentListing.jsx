@@ -11,6 +11,7 @@ import meeicon from "../../../src/components/Asset/meeicon.png";
 import physicsicon from "../../../src/components/Asset/physics.png";
 import pmeicon from "../../../src/components/Asset/pmeicon.png";
 import staticon from "../../../src/components/Asset/staticon.png";
+import stationary from "../../../src/components/Asset/stationary.png";
 import sweicon from "../../../src/components/Asset/sweicon.png";
 import "../CreateRentListing/CreateRentListing.scss";
 import LoginNavbar from "../LoginNavbar";
@@ -26,6 +27,7 @@ const categories = [
   { label: "Mechanical", icon: meeicon },
   { label: "Polymer", icon: pmeicon },
   { label: "BioChemistry", icon: biochemicon },
+  { label: "Stationary", icon: stationary },
 ];
 
 const CreateRentListing = () => {

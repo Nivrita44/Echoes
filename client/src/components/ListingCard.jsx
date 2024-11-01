@@ -3,10 +3,10 @@ import {
   ArrowForwardIos,
   Favorite,
 } from "@mui/icons-material";
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ListingCard.scss";
-import axios from "axios";
 
 const ListingCard = ({ book }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

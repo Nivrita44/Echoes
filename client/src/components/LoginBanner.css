@@ -1,7 +1,7 @@
 .login-banner-container {
   width: 100%;
-  height: 700px;
-  /* background-image: url("https://st3.depositphotos.com/3800275/37740/i/450/depositphotos_377407064-stock-photo-books-on-wooden-desk-table.jpg"); */
+  height: 100vh;
+  background-image: url("https://img.freepik.com/premium-photo/flat-lay-old-antique-books-brown-background_14117-1051104.jpg");
   background-size: cover;
   background-position: center;
   transition: all 0.5s ease-in-out;
@@ -9,9 +9,8 @@
   align-items: center;
   justify-content: center;
   /* Centering the inner content */
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-top: 3rem;
+  padding: 1rem;
+  margin-top: 0;
   /* Adding margin to place under navbar */
 }
 
@@ -51,15 +50,18 @@
 }
 
 .login-banner-user h2 {
-  font-size: 2rem;
+  margin-top: 0;
+  font-size: 4rem;
   font-weight: bold;
-  color: black;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
 }
 
 .login-banner-user h1 {
+  margin-top: 0;
   font-size: 2rem;
   font-weight: bold;
-  color: rgb(6, 34, 55);
+  color: rgb(255, 255, 255);
 }
 
 .login-banner-user img {
@@ -88,7 +90,7 @@
 }
 
 .search-container button {
-  background-color: #1e40af;
+  background-color: #000000;
   padding: 0.5rem 1rem;
   color: white;
   font-weight: 500;
@@ -98,5 +100,5 @@
 }
 
 .search-container button:hover {
-  background-color: black;
+  background-color: rgb(54, 102, 174);
 }

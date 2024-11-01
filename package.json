@@ -3,5 +3,15 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "bcrypt": "^5.1.1"
-  }
+  },
+  "name": "echoes",
+  "version": "1.0.0",
+  "description": "This is a 2nd hand book and stationaries market place where people can sell and buy those preloved items.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }

@@ -4,8 +4,8 @@ import "../styles/Categories.scss";
 
 const Categories = () => {
   return (
-    <div className="categories">
-      <h1>Explore Top Categories</h1>
+    <div className="categories" style={{ marginTop: "20", paddingTop: "20" }}>
+      <h1 style={{ marginTop: "0" }}>Explore Top Categories</h1>
       <p>
         Discover Echoes, the perfect platform for university students to buy,
         sell, and rent textbooks and study materials. Easily navigate through
