@@ -106,7 +106,7 @@ const BuyCart = () => {
           )}
         </div>
         <div className="total-payment">
-          <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
+          <h3>Total Payment: TK {(Number(totalPayment) || 0).toFixed(2)}</h3>
         </div>
         <div className="cart-actions">
           <button onClick={handleBuy}>Buy</button>

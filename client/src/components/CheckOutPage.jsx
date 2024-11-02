@@ -1,49 +1,69 @@
-// CheckOutPage.js
 import axios from "axios";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Reciept from "../components/Reciept";
 import "../styles/CheckoutPage.scss";
 import ListingCard from "./ListingCard";
 import LoginNavbar from "./LoginNavbar";
+import Reciept from "./Reciept";
 
 const CheckOutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedBooks, totalPayment } = location.state || {};
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [shippingAddress, setShippingAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Credit Card");
-  const [showReciept, setShowReciept] = useState(null); // State to control showing the receipt
-
+  const [address, setAddress] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
+  const [message, setMessage] = useState("");
+  const [showReciept, setShowReciept] = useState(false);
   if (!selectedBooks || !totalPayment) {
     navigate("/HomeAfterLogin");
+    return null;
   }
-
-  const handleFormSubmit = async (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
-    try {
-      const bookIds = selectedBooks.map((book) => book.id);
-      await axios.post(
-        "http://localhost:3002/checkout",
-        {
-          email,
-          phone,
-          shippingAddress,
-          paymentMethod,
-          totalPayment,
+    setMessage("");
+
+    const bookIds = selectedBooks.map((book) => book.id);
+
+    if (paymentMethod === "Cash on Delivery") {
+      try {
+        await axios.post("http://localhost:3002/sslcommerz/init", {
+          name,
+          address,
+          amount: totalPayment,
+          currency: "BDT",
           bookIds,
-        },
-        { withCredentials: true }
-      );
-      setShowReciept(true); // Show receipt after successful checkout
-    } catch (err) {
-      console.error("Error during checkout:", err);
-      alert("Checkout failed. Please try again.");
+          status: "pending",
+        });
+        setShowReciept(true);
+      } catch (error) {
+        setMessage("Error placing order: " + error.message);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3002/sslcommerz/init",
+          {
+            name,
+            address,
+            amount: totalPayment,
+            currency: "BDT",
+            bookIds,
+          }
+        );
+
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        } else {
+          setMessage("Failed to initiate payment.");
+        }
+      } catch (error) {
+        setMessage("Error initiating payment: " + error.message);
+      }
     }
   };
-
   if (showReciept) {
     return (
       <>
@@ -52,9 +72,10 @@ const CheckOutPage = () => {
         </div>
         <Reciept
           recieptData={{
+            name,
             email,
             phone,
-            shippingAddress,
+            address,
             paymentMethod,
             totalPayment,
             selectedBooks,
@@ -67,7 +88,17 @@ const CheckOutPage = () => {
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handlePayment}>
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -89,12 +120,12 @@ const CheckOutPage = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="shippingAddress">Shipping Address</label>
+          <label htmlFor="address">Shipping Address</label>
           <input
             type="text"
-            id="shippingAddress"
-            value={shippingAddress}
-            onChange={(e) => setShippingAddress(e.target.value)}
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             required
           />
         </div>
@@ -106,6 +137,7 @@ const CheckOutPage = () => {
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
             <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Online Payment">Online Payment</option>
           </select>
         </div>
         <div className="book-details">
@@ -118,15 +150,18 @@ const CheckOutPage = () => {
             ))}
           </ul>
         </div>
-        <div className="total-payment">
-          <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
+        <div className="amount">
+          <h3>Total Payment: TK {(Number(totalPayment) || 0).toFixed(2)}</h3>
         </div>
         <div className="checkout-actions">
-          <button type="submit">Submit</button>
+          <button type="submit">
+            {paymentMethod === "Cash on Delivery" ? "Place Order" : "Pay Now"}
+          </button>
           <button type="button" onClick={() => navigate("/view_buy_cart")}>
             Back to Cart
           </button>
         </div>
+        {message && <p className="error-message">{message}</p>}
       </form>
     </div>
   );

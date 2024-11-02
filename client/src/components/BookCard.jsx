@@ -48,7 +48,7 @@ const BookCard = ({ headline, books }) => {
             const firstImageUrl =
               imageUrls.length > 0
                 ? imageUrls[0]
-                : "/path/to/default/image.jpg"; // Fallback image in case of no image URLs
+                : "/path/to/default/image.jpg";
 
             return (
               <SwiperSlide key={book.id}>
@@ -62,11 +62,6 @@ const BookCard = ({ headline, books }) => {
                       alt={book.book_title}
                       className="book-image"
                     />
-                    {/* </div>
-                  <div className="absolute top-3 right-3 bg-blue-600 hover:bg-black p-2 rounded ">
-                    <FaCartShopping className="w-4 h-4 text-white" />
-                  </div>
-                </div> */}
                   </div>
                   <div className="book-details">
                     <h3 className="book-title">{book.book_title}</h3>

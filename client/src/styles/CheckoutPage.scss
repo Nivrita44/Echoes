@@ -24,10 +24,9 @@
         color: #555;
       }
       input[type="text"],
-            input[type="email"],
-            input[type="phone"],
-            /* Added */
-            select {
+      input[type="email"],
+      input[type="phone"],
+      select {
         width: 100%;
         padding: 10px;
         font-size: 1rem;
@@ -40,7 +39,7 @@
         }
       }
     }
-    .total-payment {
+    .amount {
       margin-top: 20px;
       text-align: center;
       font-size: 1.2rem;

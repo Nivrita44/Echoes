@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/Reciept.scss";
+
 const Reciept = ({ recieptData }) => {
   const {
+    name,
     email,
     phone,
     shippingAddress,
@@ -38,6 +40,9 @@ const Reciept = ({ recieptData }) => {
       <div className="receipt-details">
         <h3>Order Details:</h3>
         <p>
+          <strong>Name:</strong> {name}
+        </p>
+        <p>
           <strong>Email:</strong> {email}
         </p>
         <p>
@@ -58,13 +63,13 @@ const Reciept = ({ recieptData }) => {
               </div>
               <div>
                 <strong>Price:</strong> TK{" "}
-                {selectedBooks[index].price.toFixed(2)}
+                {(Number(selectedBooks[index].price) || 0).toFixed(2)}
               </div>
             </li>
           ))}
         </ul>
         <div className="total-payment">
-          <h3>Total Payment: TK {totalPayment.toFixed(2)}</h3>
+          <h3>Total Payment: TK {(Number(totalPayment) || 0).toFixed(2)}</h3>
         </div>
       </div>
     </div>

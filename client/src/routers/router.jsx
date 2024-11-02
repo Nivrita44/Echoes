@@ -19,7 +19,6 @@ import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import SingleRentBook from "../shop/SingleRentBook";
 import ProtectedRoute from "./ProtectedRoute";
-
 const router = createBrowserRouter([
   {
     path: "/",
