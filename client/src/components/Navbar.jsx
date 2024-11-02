@@ -36,7 +36,7 @@ const Navbar = () => {
     <header className="w-full bg-transparent fixed top-0 left-0 right-0 z-50 transition-all ease-in duration-300">
       <nav
         className={`py-4 lg:px-24 px-4 ${
-          isSticky ? "sticky top-0 left-0 right-0 bg-blue-300 " : ""
+          isSticky ? "sticky top-0 left-0 right-0 bg-[#DAB894] " : ""
         }`}
       >
         <div className="flex justify-between items-center text-base gap-10">
@@ -54,7 +54,7 @@ const Navbar = () => {
               <Link
                 key={path}
                 to={path}
-                className="block text-base text-black uppercase cursor-pointer hover:text-blue-700"
+                className="block text-1xl text-black font-bold uppercase cursor-pointer hover:text-blue-700"
               >
                 {link}
               </Link>

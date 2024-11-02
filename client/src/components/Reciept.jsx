@@ -7,7 +7,7 @@ const Reciept = ({ recieptData }) => {
     name,
     email,
     phone,
-    shippingAddress,
+    address,
     paymentMethod,
     totalPayment,
     selectedBooks,
@@ -49,7 +49,7 @@ const Reciept = ({ recieptData }) => {
           <strong>Mobile Number:</strong> {phone}
         </p>
         <p>
-          <strong>Shipping Address:</strong> {shippingAddress}
+          <strong>Shipping Address:</strong> {address}
         </p>
         <p>
           <strong>Payment Method:</strong> {paymentMethod}
