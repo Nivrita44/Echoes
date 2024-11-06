@@ -9,10 +9,6 @@ const LoginNavbar = () => {
   const { user } = useOutletContext();
   const navigate = useNavigate();
 
-  // const toggleMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -39,10 +35,10 @@ const LoginNavbar = () => {
     { link: "Home", path: "/HomeAfterLogin" },
     { link: "About", path: "/about" },
     { link: "See WishList", path: "/view_buy_wishlist" },
-    { link: "view Cart", path: "/view_buy_cart" },
+    { link: "View Cart", path: "/view_buy_cart" },
     { link: "Logout", path: "/Home" },
-    { link: "See Rent WishList", path: "/view_rent _wishlist" },
-    { link: "view Rent Cart", path: "/view_rent_cart" },
+    { link: "See Rent WishList", path: "/view_rent_wishlist" },
+    { link: "View Rent Cart", path: "/view_rent_cart" },
   ];
 
   return (
@@ -82,17 +78,19 @@ const LoginNavbar = () => {
             />
 
             <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <FaBarsStaggered className="w-5 hover:text-blue-700" />
+              <FaBarsStaggered className="w-5 hover:text-blue-300" />
             </button>
 
             {/* Mobile Dropdown */}
             {isMenuOpen && (
-              <div className="absolute top-full left-0 bg-blue-700 py-2 px-4 space-y-2">
+              <div className="absolute top-full left-0 bg-blue-300 py-4 px-6 space-y-2">
+                {" "}
+                {/* Adjusted padding for wider menu */}
                 {menuItems.map(({ link, path }) => (
                   <Link
                     key={path}
                     to={path}
-                    className="block text-base text-white uppercase cursor-pointer"
+                    className="block text-base text-white uppercase cursor-pointer hover:bg-blue-400 py-2 px-4" // Added padding for spacing between items
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link}
@@ -106,4 +104,5 @@ const LoginNavbar = () => {
     </header>
   );
 };
+
 export default LoginNavbar;

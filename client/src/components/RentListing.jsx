@@ -29,9 +29,14 @@ const RentListing = () => {
       setSelectedCategory(null);
       setFilteredBooks(books);
     } else {
-      // Select category and filter books
+      // Select category and filter books containing the category
       setSelectedCategory(category);
-      const filtered = books.filter((book) => book.category === category.label);
+      const filtered = books.filter((book) =>
+        book.category
+          .split(",")
+          .map((cat) => cat.trim())
+          .includes(category.label)
+      );
       setFilteredBooks(filtered);
     }
   };
@@ -56,11 +61,12 @@ const RentListing = () => {
         ))}
       </div>
       <div className="listings">
-        {/* Use Link component to wrap around each ListingCard */}
         {filteredBooks.length === 0 ? (
           <p>Sorry, No book is available in this category.</p> // Message when no books are found
         ) : (
-          filteredBooks.map((book) => <RentListingCard book={book} />)
+          filteredBooks.map((book, index) => (
+            <RentListingCard key={index} book={book} />
+          ))
         )}
       </div>
     </div>
