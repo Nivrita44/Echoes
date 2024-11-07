@@ -4,7 +4,10 @@ import "../styles/Categories.scss";
 
 const Categories = () => {
   return (
-    <div className="categories" style={{ marginTop: "20", paddingTop: "20" }}>
+    <div
+      className="categories"
+      style={{ marginTop: "20px", paddingTop: "20px" }}
+    >
       <h1 style={{ marginTop: "0" }}>Explore Top Categories</h1>
       <p>
         Discover Echoes, the perfect platform for university students to buy,
@@ -15,11 +18,8 @@ const Categories = () => {
       </p>
 
       <div className="categories_list">
-        {categories?.slice(1, 7).map((category, index) => (
-          <Link
-            to={`/properties/category/${category.label}`}
-            key={category.label}
-          >
+        {categories?.slice(1, 7).map((category) => (
+          <Link to={`/category/${category.label}`} key={category.label}>
             <div className="category">
               <img src={category.img} alt={category.label} />
               <div className="overlay"></div>

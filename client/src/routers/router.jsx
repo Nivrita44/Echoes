@@ -19,6 +19,7 @@ import Shop from "../shop/Shop";
 import SingleBook from "../shop/SingleBook";
 import SingleRentBook from "../shop/SingleRentBook";
 import ProtectedRoute from "./ProtectedRoute";
+import CategoryPage from "../components/CategoryPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -168,6 +169,16 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <RentWishlist />,
+          },
+        ],
+      },
+      {
+        path: "/category/:categoryLabel",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <CategoryPage />,
           },
         ],
       },
