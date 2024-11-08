@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ListingCard from "./ListingCard";
 import RentListingCard from "./RentListingCard";
+import LoginNavbar from "./LoginNavbar";
 
 const CategoryPage = () => {
   const { categoryLabel } = useParams();
@@ -57,40 +58,45 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="category-page-container">
-      <h1 style={mainHeadingStyle}>Books in {categoryLabel}</h1>
+    <>
+      <div style={{ marginTop: "50px" }}>
+        <LoginNavbar />
+      </div>
+      <div className="category-page-container">
+        <h1 style={mainHeadingStyle}>Books in {categoryLabel}</h1>
 
-      {/* Section for Books for Sale */}
-      {sellBooks.length > 0 && (
-        <div className="sell-books-section">
-          <h2 style={sectionHeadingStyle}>Sale</h2>
-          <div className="listings">
-            {sellBooks.map((book, index) => (
-              <ListingCard key={`sell-${index}`} book={book} />
-            ))}
+        {/* Section for Books for Sale */}
+        {sellBooks.length > 0 && (
+          <div className="sell-books-section">
+            <h2 style={sectionHeadingStyle}>Sale</h2>
+            <div className="listings">
+              {sellBooks.map((book, index) => (
+                <ListingCard key={`sell-${index}`} book={book} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Section for Books for Rent */}
-      {rentBooks.length > 0 && (
-        <div className="rent-books-section">
-          <h2 style={sectionHeadingStyle}>Rent</h2>
-          <div className="listings">
-            {rentBooks.map((book, index) => (
-              <RentListingCard key={`rent-${index}`} book={book} />
-            ))}
+        {/* Section for Books for Rent */}
+        {rentBooks.length > 0 && (
+          <div className="rent-books-section">
+            <h2 style={sectionHeadingStyle}>Rent</h2>
+            <div className="listings">
+              {rentBooks.map((book, index) => (
+                <RentListingCard key={`rent-${index}`} book={book} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Message when no books are available in the category */}
-      {sellBooks.length === 0 && rentBooks.length === 0 && (
-        <p style={{ textAlign: "center", color: "#666" }}>
-          Sorry, no books are available in this category.
-        </p>
-      )}
-    </div>
+        {/* Message when no books are available in the category */}
+        {sellBooks.length === 0 && rentBooks.length === 0 && (
+          <p style={{ textAlign: "center", color: "#666" }}>
+            Sorry, no books are available in this category.
+          </p>
+        )}
+      </div>
+    </>
   );
 };
 

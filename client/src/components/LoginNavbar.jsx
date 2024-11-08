@@ -32,12 +32,11 @@ const LoginNavbar = () => {
 
   const menuItems = [
     { link: "Home", path: "/HomeAfterLogin" },
-    { link: "About", path: "/about" },
     { link: "See WishList", path: "/view_buy_wishlist" },
     { link: "View Cart", path: "/view_buy_cart" },
-    { link: "Logout", path: "/Home" },
     { link: "See Rent WishList", path: "/view_rent_wishlist" },
     { link: "View Rent Cart", path: "/view_rent_cart" },
+    { link: "Logout", path: "/Home" },
   ];
 
   return (
