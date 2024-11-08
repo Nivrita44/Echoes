@@ -1015,6 +1015,130 @@ app.delete("/del-book-rent/:id", authenticateToken, (req, res) => {
   });
 });
 
+//-------------------------------------update book info --------------------------------------------------------------------------//
+
+app.put(
+  "/update-book-sell/:id",
+  upload.array("images", 10),
+  authenticateToken,
+  (req, res) => {
+    const { id } = req.params;
+    const { book_title, author, published_date, description, category, price } =
+      req.body;
+    const userId = req.user.userId; // Get the user ID from the authenticated token
+
+    // Check if the book exists and belongs to the user
+    const checkOwnershipQuery = `SELECT * FROM book_sell_inventory WHERE id = ? AND user_id = ?`;
+    db.query(checkOwnershipQuery, [id, userId], (err, results) => {
+      if (err) {
+        console.error("Error checking book ownership:", err);
+        return res.status(500).send("Failed to verify ownership.");
+      }
+
+      if (results.length === 0) {
+        return res
+          .status(403)
+          .send("Book not found or you do not have permission to update it.");
+      }
+
+      // Prepare image URLs if new images are uploaded
+      const imageUrls = req.files.length
+        ? req.files.map((file) => `/uploads/${file.filename}`)
+        : JSON.parse(results[0].image_url); // Keep existing images if none uploaded
+
+      const updateQuery = `
+        UPDATE book_sell_inventory 
+        SET book_title = ?, author = ?, published_date = ?, description = ?, image_url = ?, category = ?, price = ? 
+        WHERE id = ? AND user_id = ?
+      `;
+
+      db.query(
+        updateQuery,
+        [
+          book_title,
+          author,
+          published_date,
+          description,
+          JSON.stringify(imageUrls),
+          category,
+          price,
+          id,
+          userId,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating book:", err);
+            return res.status(500).send("Failed to update book.");
+          }
+
+          res.send("Book updated successfully.");
+        }
+      );
+    });
+  }
+);
+
+app.put(
+  "/update-book-rent/:id",
+  upload.array("images", 10),
+  authenticateToken,
+  (req, res) => {
+    const { id } = req.params;
+    const { book_title, author, published_date, description, category, price } =
+      req.body;
+    const userId = req.user.userId; // Get the user ID from the authenticated token
+
+    // Check if the book exists and belongs to the user
+    const checkOwnershipQuery = `SELECT * FROM book_rent_inventory WHERE id = ? AND user_id = ?`;
+    db.query(checkOwnershipQuery, [id, userId], (err, results) => {
+      if (err) {
+        console.error("Error checking book ownership:", err);
+        return res.status(500).send("Failed to verify ownership.");
+      }
+
+      if (results.length === 0) {
+        return res
+          .status(403)
+          .send("Book not found or you do not have permission to update it.");
+      }
+
+      // Prepare image URLs if new images are uploaded
+      const imageUrls = req.files.length
+        ? req.files.map((file) => `/uploads/${file.filename}`)
+        : JSON.parse(results[0].image_url); // Keep existing images if none uploaded
+
+      const updateQuery = `
+        UPDATE book_rent_inventory 
+        SET book_title = ?, author = ?, published_date = ?, description = ?, image_url = ?, category = ?, price = ? 
+        WHERE id = ? AND user_id = ?
+      `;
+
+      db.query(
+        updateQuery,
+        [
+          book_title,
+          author,
+          published_date,
+          description,
+          JSON.stringify(imageUrls),
+          category,
+          price,
+          id,
+          userId,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating book:", err);
+            return res.status(500).send("Failed to update book.");
+          }
+
+          res.send("Book updated successfully.");
+        }
+      );
+    });
+  }
+);
+
 // adding book to sell cart
 
 app.post("/add-to-rent-cart", authenticateToken, (req, res) => {
