@@ -5,10 +5,11 @@ import "../styles/SingleBook.scss";
 
 function SingleBook() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Get the navigate function from react-router-dom
+  const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -16,15 +17,30 @@ function SingleBook() {
         const response = await axios.get(
           `http://localhost:3002/book-sell/${id}`
         );
+        console.log("Book data fetched:", response.data);
         setBook(response.data);
-        setLoading(false);
       } catch (err) {
         setError(err);
+      } finally {
         setLoading(false);
       }
     };
 
+    // Fetch current user ID
+    const fetchUserId = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/protected", {
+          withCredentials: true,
+        });
+        console.log("Current user ID:", response.data.id);
+        setUserId(response.data.id);
+      } catch (err) {
+        console.error("Error fetching user ID:", err);
+      }
+    };
+
     fetchBook();
+    fetchUserId();
   }, [id]);
 
   const formatDate = (dateString) => {
@@ -38,7 +54,7 @@ function SingleBook() {
 
   const addToCart = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3002/add-to-cart",
         { book_id: id },
         { withCredentials: true }
@@ -51,14 +67,38 @@ function SingleBook() {
   };
 
   const handleBuy = () => {
-    // Navigate to checkout with selectedBooks and totalPayment state
     navigate("/checkout", {
       state: { selectedBooks: [book], totalPayment: book.price },
     });
   };
 
+  const handleUpdate = () => {
+    navigate(`/update-book/${id}`, { state: { book } });
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3002/del-book-sell/${id}`, {
+        withCredentials: true,
+      });
+      alert("Book deleted successfully!");
+      navigate("/HomeAfterLogin");
+    } catch (err) {
+      console.error("Error deleting book:", err);
+      alert("Failed to delete book.");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading book: {error.message}</div>;
+
+  // Verify userId and book.user_id in the console
+  console.log(
+    "Rendering buttons, userId:",
+    userId,
+    "book.user_id:",
+    book?.user_id
+  );
 
   return (
     <div className="single-book-container">
@@ -98,12 +138,25 @@ function SingleBook() {
               <span>{book.price}</span>
             </div>
             <div className="buttons">
-              <button className="cart-button" onClick={addToCart}>
-                Add To Cart
-              </button>
-              <button className="buy-button" onClick={handleBuy}>
-                Buy
-              </button>
+              {userId === book.user_id ? (
+                <>
+                  <button className="cart-button" onClick={handleUpdate}>
+                    Update
+                  </button>
+                  <button className="buy-button" onClick={handleDelete}>
+                    Delete
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button className="cart-button" onClick={addToCart}>
+                    Add To Cart
+                  </button>
+                  <button className="buy-button" onClick={handleBuy}>
+                    Buy
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

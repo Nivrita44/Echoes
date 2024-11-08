@@ -941,6 +941,80 @@ app.get("/recent_rent_books", (req, res) => {
   });
 });
 
+//--------------------------------------------------delete a book------------------------------------------------------//
+
+app.delete("/del-book-sell/:id", authenticateToken, (req, res) => {
+  const bookId = req.params.id;
+  const userId = req.user.userId; // Get user ID from the authenticated token
+
+  // First, ensure that the book exists and that the user owns it
+  const checkOwnershipQuery = `
+    SELECT * FROM book_sell_inventory WHERE id = ? AND user_id = ?
+  `;
+
+  db.query(checkOwnershipQuery, [bookId, userId], (err, results) => {
+    if (err) {
+      console.error("Error checking book ownership:", err);
+      return res.status(500).send("Failed to verify ownership.");
+    }
+
+    if (results.length === 0) {
+      // No results found means the book doesn't exist or isn't owned by the user
+      return res
+        .status(403)
+        .send("Book not found or you do not have permission to delete it.");
+    }
+
+    // Proceed to delete the book
+    const deleteQuery = "DELETE FROM book_sell_inventory WHERE id = ?";
+    db.query(deleteQuery, [bookId], (err, result) => {
+      if (err) {
+        console.error("Error deleting book:", err);
+        return res.status(500).send("Failed to delete book.");
+      }
+
+      console.log("Book deleted successfully.");
+      res.send("Book deleted successfully.");
+    });
+  });
+});
+
+app.delete("/del-book-rent/:id", authenticateToken, (req, res) => {
+  const bookId = req.params.id;
+  const userId = req.user.userId; // Get user ID from the authenticated token
+
+  // First, ensure that the book exists and that the user owns it
+  const checkOwnershipQuery = `
+    SELECT * FROM book_rent_inventory WHERE id = ? AND user_id = ?
+  `;
+
+  db.query(checkOwnershipQuery, [bookId, userId], (err, results) => {
+    if (err) {
+      console.error("Error checking book ownership:", err);
+      return res.status(500).send("Failed to verify ownership.");
+    }
+
+    if (results.length === 0) {
+      // No results found means the book doesn't exist or isn't owned by the user
+      return res
+        .status(403)
+        .send("Book not found or you do not have permission to delete it.");
+    }
+
+    // Proceed to delete the book
+    const deleteQuery = "DELETE FROM book_rent_inventory WHERE id = ?";
+    db.query(deleteQuery, [bookId], (err, result) => {
+      if (err) {
+        console.error("Error deleting book:", err);
+        return res.status(500).send("Failed to delete book.");
+      }
+
+      console.log("Book deleted successfully.");
+      res.send("Book deleted successfully.");
+    });
+  });
+});
+
 // adding book to sell cart
 
 app.post("/add-to-rent-cart", authenticateToken, (req, res) => {

@@ -11,6 +11,7 @@ function SingleRentBook() {
   const [error, setError] = useState(null);
   const [rentDays, setRentDays] = useState(1); // Default to 1 day
   const [totalPayment, setTotalPayment] = useState(0);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -19,17 +20,28 @@ function SingleRentBook() {
           `http://localhost:3002/book-rent/${id}`
         );
         setBook(response.data);
-        setLoading(false);
       } catch (err) {
         setError(err);
+      } finally {
         setLoading(false);
       }
     };
 
+    const fetchUserId = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/protected", {
+          withCredentials: true,
+        });
+        setUserId(response.data.id);
+      } catch (err) {
+        console.error("Error fetching user ID:", err);
+      }
+    };
+
     fetchBook();
+    fetchUserId();
   }, [id]);
 
-  // Function to calculate total payment based on rent days and book price
   const calculateTotalPayment = () => {
     if (book) {
       const totalPrice = rentDays * book.price;
@@ -38,7 +50,7 @@ function SingleRentBook() {
   };
 
   useEffect(() => {
-    calculateTotalPayment(); // Calculate total payment whenever rentDays or book changes
+    calculateTotalPayment();
   }, [rentDays, book]);
 
   const formatDate = (dateString) => {
@@ -52,13 +64,9 @@ function SingleRentBook() {
 
   const addToCart = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3002/add-to-rent-cart",
-        {
-          book_id: id,
-          rent_days: rentDays,
-          total_price: totalPayment,
-        },
+        { book_id: id, rent_days: rentDays, total_price: totalPayment },
         { withCredentials: true }
       );
       alert("Book added to cart successfully!");
@@ -69,10 +77,26 @@ function SingleRentBook() {
   };
 
   const handleBuy = () => {
-    // Navigate to checkout with selectedBooks and totalPayment state
     navigate("/checkout", {
       state: { selectedBooks: [book], totalPayment: totalPayment },
     });
+  };
+
+  const handleUpdate = () => {
+    navigate(`/update-book/${id}`, { state: { book } });
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3002/del-book-rent/${id}`, {
+        withCredentials: true,
+      });
+      alert("Book deleted successfully!");
+      navigate("/HomeAfterLogin");
+    } catch (err) {
+      console.error("Error deleting book:", err);
+      alert("Failed to delete book.");
+    }
   };
 
   const handleRentDaysChange = (e) => {
@@ -129,7 +153,7 @@ function SingleRentBook() {
                 value={rentDays}
                 onChange={handleRentDaysChange}
                 min={1}
-                max={30} // Assuming a maximum of 30 days
+                max={365}
               />
             </div>
             <div className="info-item">
@@ -137,12 +161,25 @@ function SingleRentBook() {
               <span>{totalPayment}</span>
             </div>
             <div className="buttons">
-              <button className="cart-button" onClick={addToCart}>
-                Add To Cart
-              </button>
-              <button className="buy-button" onClick={handleBuy}>
-                Buy
-              </button>
+              {userId === book.user_id ? (
+                <>
+                  <button className="cart-button" onClick={handleUpdate}>
+                    Update
+                  </button>
+                  <button className="buy-button" onClick={handleDelete}>
+                    Delete
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button className="cart-button" onClick={addToCart}>
+                    Add To Cart
+                  </button>
+                  <button className="buy-button" onClick={handleBuy}>
+                    Rent
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
