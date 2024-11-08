@@ -20,6 +20,9 @@ import SingleBook from "../shop/SingleBook";
 import SingleRentBook from "../shop/SingleRentBook";
 import ProtectedRoute from "./ProtectedRoute";
 import CategoryPage from "../components/CategoryPage";
+import EditBookListing from "../components/CreateListing/EditBookListing";
+import EditRentListing from "../components/CreateRentListing/EditRentListing";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -179,6 +182,26 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <CategoryPage />,
+          },
+        ],
+      },
+      {
+        path: "/edit-book-sell/:id",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <EditBookListing />,
+          },
+        ],
+      },
+      {
+        path: "/edit-book-rent/:id",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <EditRentListing />,
           },
         ],
       },
