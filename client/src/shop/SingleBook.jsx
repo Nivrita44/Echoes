@@ -73,7 +73,7 @@ function SingleBook() {
   };
 
   const handleUpdate = () => {
-    navigate(`/update-book/${id}`, { state: { book } });
+    navigate(`/edit-book-sell/${id}`, { state: { book } });
   };
 
   const handleDelete = async () => {

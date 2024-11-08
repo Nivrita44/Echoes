@@ -83,7 +83,7 @@ function SingleRentBook() {
   };
 
   const handleUpdate = () => {
-    navigate(`/update-book/${id}`, { state: { book } });
+    navigate(`/edit-book-rent/${id}`, { state: { book } });
   };
 
   const handleDelete = async () => {
