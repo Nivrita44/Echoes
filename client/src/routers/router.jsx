@@ -33,19 +33,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/shop",
-        element: <Shop />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/blog",
-        element: <Blog />,
-      },
-
-      {
         path: "/login",
         element: <Login />,
       },
@@ -55,7 +42,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/book-sell/:id",
-        element: <SingleBook />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <SingleBook />,
+          },
+        ],
       },
       {
         path: "/create-listing",
@@ -152,7 +145,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/book-rent/:id",
-        element: <SingleRentBook />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <SingleRentBook />,
+          },
+        ],
       },
 
       {

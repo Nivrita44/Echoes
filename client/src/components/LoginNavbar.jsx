@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaBarsStaggered, FaBlog } from "react-icons/fa6";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import "../styles/LoginNavbar.scss";
 
 const LoginNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,16 +42,11 @@ const LoginNavbar = () => {
 
   return (
     <header
-      className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isSticky ? "bg-[#D2B48C]" : "bg-transparent"
-      }`}
+      className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${"bg-[#D2B48C]"}`}
     >
       <nav className="py-4 lg:px-24 px-4">
         <div className="flex justify-between items-center text-base gap-10">
-          <Link
-            to="/"
-            className="text-4xl font-bold text-coffee flex items-center gap-2"
-          >
+          <Link className="text-4xl font-bold text-coffee flex items-center gap-2">
             <FaBlog className="inline-block" />
             Echoes
           </Link>

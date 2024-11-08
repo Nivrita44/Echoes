@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import Navbar from "../Navbar";
 
 const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -34,6 +35,7 @@ const Login = () => {
 
   return (
     <div className="loginPage flex">
+      <Navbar />
       <div className="container flex">
         <div className="imgDiv">
           <div className="textDiv">
@@ -88,9 +90,6 @@ const Login = () => {
             <button type="submit" className="btn flex">
               <span>Login</span>
             </button>
-            <span className="forgotPassword">
-              Forgot your password? <a href="">Click Here</a>
-            </span>
           </form>
         </div>
       </div>

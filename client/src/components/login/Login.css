@@ -92,7 +92,7 @@ video {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 7px 50px rgb(214, 223, 213);
-  background-image: url("https://png.pngtree.com/background/20230519/original/pngtree-the-shelves-of-a-bookstore-are-packed-with-lots-of-books-picture-image_2651084.jpg");
+  background-image: url("../Asset/bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

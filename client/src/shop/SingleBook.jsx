@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../styles/SingleBook.scss";
+import LoginNavbar from "../components/LoginNavbar";
 
 function SingleBook() {
   const { id } = useParams();
@@ -101,67 +102,72 @@ function SingleBook() {
   );
 
   return (
-    <div className="single-book-container">
-      {book && (
-        <div className="book-details">
-          <div className="book-images">
-            {book.image_url &&
-              JSON.parse(book.image_url).map((image, index) => (
-                <img
-                  key={index}
-                  src={`http://localhost:3002${image}`}
-                  alt={book.book_title}
-                  className="book-image"
-                />
-              ))}
+    <>
+      <div style={{ marginTop: "50px" }}>
+        <LoginNavbar />
+      </div>
+      <div className="single-book-container">
+        {book && (
+          <div className="book-details">
+            <div className="book-images">
+              {book.image_url &&
+                JSON.parse(book.image_url).map((image, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:3002${image}`}
+                    alt={book.book_title}
+                    className="book-image"
+                  />
+                ))}
+            </div>
+            <div className="book-info">
+              <h1>{book.book_title}</h1>
+              <div className="info-item">
+                <strong>Author:</strong>
+                <span>{book.author}</span>
+              </div>
+              <div className="info-item">
+                <strong>Published Date:</strong>
+                <span>{formatDate(book.published_date)}</span>
+              </div>
+              <div className="info-item">
+                <strong>Description:</strong>
+                <span>{book.description}</span>
+              </div>
+              <div className="info-item">
+                <strong>Category:</strong>
+                <span>{book.category}</span>
+              </div>
+              <div className="info-item">
+                <strong>Price:</strong>
+                <span>{book.price}</span>
+              </div>
+              <div className="buttons">
+                {userId === book.user_id ? (
+                  <>
+                    <button className="cart-button" onClick={handleUpdate}>
+                      Update
+                    </button>
+                    <button className="buy-button" onClick={handleDelete}>
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button className="cart-button" onClick={addToCart}>
+                      Add To Cart
+                    </button>
+                    <button className="buy-button" onClick={handleBuy}>
+                      Buy
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="book-info">
-            <h1>{book.book_title}</h1>
-            <div className="info-item">
-              <strong>Author:</strong>
-              <span>{book.author}</span>
-            </div>
-            <div className="info-item">
-              <strong>Published Date:</strong>
-              <span>{formatDate(book.published_date)}</span>
-            </div>
-            <div className="info-item">
-              <strong>Description:</strong>
-              <span>{book.description}</span>
-            </div>
-            <div className="info-item">
-              <strong>Category:</strong>
-              <span>{book.category}</span>
-            </div>
-            <div className="info-item">
-              <strong>Price:</strong>
-              <span>{book.price}</span>
-            </div>
-            <div className="buttons">
-              {userId === book.user_id ? (
-                <>
-                  <button className="cart-button" onClick={handleUpdate}>
-                    Update
-                  </button>
-                  <button className="buy-button" onClick={handleDelete}>
-                    Delete
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button className="cart-button" onClick={addToCart}>
-                    Add To Cart
-                  </button>
-                  <button className="buy-button" onClick={handleBuy}>
-                    Buy
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -1,16 +1,18 @@
 .single-book-container {
-  margin-top: 28px;
+  margin-top: 50px;
   padding: 60px 60px 60px;
   /* Added padding-top */
   display: flex;
 }
 
 .book-details {
+  margin-top: 50px;
   display: flex;
   flex-direction: row;
 }
 
 .book-image {
+  margin-top: 50px;
   width: 500px;
   height: auto;
   margin-right: 20px;

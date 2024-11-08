@@ -301,7 +301,7 @@ const EditRentListing = () => {
             </DragDropContext>
           </div>
           <button type="submit" className="submit-button">
-            Updates
+            Update
           </button>
         </form>
       </div>

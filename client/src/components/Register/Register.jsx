@@ -3,6 +3,7 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
+import Navbar from "../Navbar";
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -41,6 +42,7 @@ const Register = () => {
 
   return (
     <div className="registerPage flex">
+      <Navbar />
       <div className="container flex">
         <div className="imgDiv">
           <div className="textDiv">
@@ -57,7 +59,7 @@ const Register = () => {
 
         <div className="formDiv flex">
           <form action="" className="form grid" onSubmit={createUser}>
-            <div className="inputDiv">
+            <div className="">
               <label htmlFor="email">Email</label>
               <div className="input flex">
                 <input
@@ -65,11 +67,12 @@ const Register = () => {
                   id="email"
                   placeholder="Enter Email address"
                   onChange={(event) => setEmail(event.target.value)}
+                  style={{ width: "300px" }}
                 />
               </div>
             </div>
 
-            <div className="inputDiv">
+            <div className="">
               <label htmlFor="regNo">Registration No</label>
               <div className="input flex">
                 <input
@@ -77,10 +80,11 @@ const Register = () => {
                   id="regNo"
                   placeholder="Enter Registration No"
                   onChange={(event) => setRegNo(event.target.value)}
+                  style={{ width: "300px" }}
                 />
               </div>
             </div>
-            <div className="inputDiv">
+            <div className="">
               <label htmlFor="username">Username</label>
               <div className="input flex">
                 <input
@@ -88,11 +92,12 @@ const Register = () => {
                   id="username"
                   placeholder="Enter Username"
                   onChange={(event) => setUserName(event.target.value)}
+                  style={{ width: "300px" }}
                 />
               </div>
             </div>
 
-            <div className="inputDiv">
+            <div className="">
               <label htmlFor="password">Password</label>
               <div className="input flex">
                 <input
@@ -100,10 +105,11 @@ const Register = () => {
                   id="password"
                   placeholder="Enter Password"
                   onChange={(event) => setPassword(event.target.value)}
+                  style={{ width: "300px" }}
                 />
               </div>
             </div>
-            <div className="inputDiv">
+            <div className="">
               <label htmlFor="profileImage">Upload Your Image</label>
               <div className="input flex">
                 <input
@@ -112,15 +118,13 @@ const Register = () => {
                   accept="image/*"
                   placeholder="Upload Your Photo"
                   onChange={(event) => setProfileImage(event.target.files[0])}
+                  style={{ width: "300px" }}
                 />
               </div>
             </div>
             <button type="submit" className="btn flex">
               <span>Register</span>
             </button>
-            <span className="forgotPassword">
-              Forgot your password? <a href="">Click Here</a>
-            </span>
           </form>
         </div>
       </div>
