@@ -73,7 +73,9 @@ npm run dev
 Frontend: http://localhost:5173
 Backend: http://localhost:4000
 
-🤝 Contributors
+---
+
+##🤝 Contributors
 
 Nivrita Munib
 Durba Roy
@@ -82,5 +84,4 @@ Durba Roy
 
 Echoes © 2025 [Nivrita & Durba / Echoes]
 
-## 🗃️ Project Structure
 
